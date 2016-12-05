@@ -1,0 +1,5 @@
+---
+- hosts: rabbitmq
+  roles:
+    - geerlingguy.ntp
+    - Stouts.rabbitmq
