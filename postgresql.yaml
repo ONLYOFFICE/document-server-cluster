@@ -1,0 +1,6 @@
+---
+- hosts: postgresql
+  roles:
+     - geerlingguy.ntp
+     - geerlingguy.postgresql
+     
