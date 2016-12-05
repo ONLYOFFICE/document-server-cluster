@@ -1,0 +1,6 @@
+[loadbalancer]
+[documentservers]
+[postgresql]
+[redis]
+[rabbitmq]
+[filestore]
