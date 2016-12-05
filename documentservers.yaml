@@ -1,0 +1,5 @@
+---
+- hosts: documentservers
+  roles:
+     - common
+     - documentserver
