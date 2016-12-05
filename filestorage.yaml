@@ -1,4 +1,5 @@
 ---
 - hosts: filestorage
   roles:
+    - geerlingguy.ntp
     - geerlingguy.nfs
