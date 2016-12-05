@@ -1,18 +1,8 @@
 ---
-- hosts: "*onlyoffice-documentserver*"
-
-  vars:
-    onlyoffice_repo_file: /etc/apt/sources.list.d/onlyoffice.list
-
-  tasks:
-
-  - include: common/ntp.yaml
-
   - name: Add gpg keys
     apt_key: keyserver={{ item.server }} id={{ item.key }} state=present
     with_items:
       - { server: 'keyserver.ubuntu.com', key: 'D9D0BF019CC8AC0D', vendor: 'onlyoffice' }
-      - { server: 'keys.gnupg.net', key: '5072E1F5', vendor: 'mysql' }
       - { server: 'keyserver.ubuntu.com', key: 'BA9EF27F', vendor: 'ubuntu' }
     sudo: yes
     
