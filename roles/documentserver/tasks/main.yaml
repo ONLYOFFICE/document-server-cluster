@@ -1,28 +1,27 @@
 ---
-  - name: Add gpg keys
-    apt_key: keyserver={{ item.server }} id={{ item.key }} state=present
-    with_items:
-      - { server: 'keyserver.ubuntu.com', key: 'D9D0BF019CC8AC0D', vendor: 'onlyoffice' }
-      - { server: 'keyserver.ubuntu.com', key: 'BA9EF27F', vendor: 'ubuntu' }
+#  - name: Add ubuntu gpg keys
+#    apt_key: keyserver={{ item.server }} id={{ item.key }} state=present
+#    with_items:
+#      - { server: 'keyserver.ubuntu.com', key: 'BA9EF27F', vendor: 'ubuntu' }
+#    sudo: yes
+ 
+  - name: Add onlyoffice gpg keys
+    apt_key:
+      url: "http://download.onlyoffice.com/repo/onlyoffice.key"
+      state: present
     sudo: yes
-    
-  - name: Add repositories
-    apt_repository: repo="{{ item }}" state=present
-    with_items:
-      - "deb http://archive.ubuntu.com/ubuntu precise main universe multiverse"
-      - "deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.6"
-      - "deb https://deb.nodesource.com/node_4.x trusty main"
-      - "ppa:ubuntu-toolchain-r/test"
-    sudo: yes
-  
+
+# - name: Add repositories		
+#   apt_repository: repo="{{ item }}" state=present		
+#   with_items:		
+#     - "deb http://archive.ubuntu.com/ubuntu precise main universe multiverse"		
+#   sudo: yes
+
   - name: Add onlyoffice repositories
-    shell: echo "{{ package_repo }}" > "{{ onlyoffice_repo_file }}"
-    args:
-      creates: "{{ onlyoffice_repo_file }}"
-    sudo: yes
-  
-  - name: Change onlyoffice repositories
-    replace: dest="{{ onlyoffice_repo_file }}" regexp='^deb.*repo/$' replace="{{ package_repo }}"
+    apt_repository:
+      repo: {{ package_repo }}
+      state: present
+      filename: {{ onlyoffice_repo_file }}
     sudo: yes
   
   - name: Say 'yes' to ttf-mscorefonts-installer
@@ -37,5 +36,5 @@
     apt: name={{ item.name }} update_cache=yes force=yes state={{ item.state }}
     with_items:
       - { name: software-properties-common, state: present }
-      - { name: "{{ package_name }}", state: latest }
+      - { name: {{ package_name }}, state: latest }
     sudo: yes
