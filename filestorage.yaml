@@ -1,0 +1,3 @@
+- hosts: filestorage
+  roles:
+    - geerlingguy.nfs
