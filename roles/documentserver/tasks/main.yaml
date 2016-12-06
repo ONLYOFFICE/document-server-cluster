@@ -34,6 +34,62 @@
   - name: Install packages
     apt: name={{ item.name }} update_cache=yes force=yes state={{ item.state }}
     with_items:
-      - { name: software-properties-common, state: present }
+#      - { name: software-properties-common, state: present }
       - { name: "{{ package_name }}", state: latest }
     sudo: yes
+
+  - name: Set up db host name
+    shell: "{{ json }} -I -e 'this.services.CoAuthoring.sql.dbHost = \"{{ db_server_host }}\"'"
+    when: db_server_host is defined
+
+  - name: Set up db port number
+    shell: "{{ json }} -I -e 'this.services.CoAuthoring.sql.dbPort = \"{{ db_server_port }}\"'"
+    when: db_server_port is defined
+
+  - name: Set up db name
+    shell: "{{ json }} -I -e 'this.services.CoAuthoring.sql.dbName = \"{{ db_server_name }}\"'"
+    when: db_server_name is defined
+
+  - name: Set up db user
+    shell: "{{ json }} -I -e 'this.services.CoAuthoring.sql.dbUser = \"{{ db_server_user }}\"'"
+    when: db_server_user is defined
+
+  - name: Set up db user password
+    shell: "{{ json }} -I -e 'this.services.CoAuthoring.sql.dbPass = \"{{ db_server_pass }}\"'"
+    when: db_server_pass is defined
+
+
+  - name: Set up redis host name
+    shell: "{{ json }} -I -e 'this.services.CoAuthoring.redis.host  = \"{{ redis_server_host }}\"'"
+    when: redis_server_host is defined
+
+  - name: Set up redis port number
+    shell: "{{ json }} -I -e 'this.services.CoAuthoring.redis.port  = \"{{ redis_server_port }}\"'"
+    when: redis_server_port is defined
+
+
+  - name: Set up rabbitmq host name
+    shell: "{{ json }} -I -e 'this.rabbitmq.url = \"amqp://{{ rabbitmq_server_host }}\"'"
+    when: rabbitmq_server_host is defined
+
+  - name: Set up rabbitmq user name
+    shell: "{{ json }} -I -e 'this.rabbitmq.login = \"{{ rabbitmq_server_user }}\"'"
+    when: rabbitmq_server_user is defined
+
+  - name: Set up rabbitmq host name
+    shell: "{{ json }} -I -e 'this.rabbitmq.password = \"{{ rabbitmq_server_pass }}\"'"
+    when: rabbitmq_server_pass is defined
+
+#  - supervisorctl:
+#      name: {{ item }}
+#      state: restarted
+#    with_items:
+#    - 'onlyoffice-documentserver:converter'
+
+  - name: Restart documentserver
+    supervisorctl:
+      name: "{{ item }}"
+      state: restarted
+    with_items:
+    - 'onlyoffice-documentserver:converter'
+    - 'onlyoffice-documentserver:docservice'
