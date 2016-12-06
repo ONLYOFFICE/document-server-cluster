@@ -1,6 +1,15 @@
 [loadbalancer]
 [documentservers]
+46.101.118.113
+
 [postgresql]
+46.101.118.113
+
 [redis]
+46.101.118.113
+
 [rabbitmq]
+46.101.118.113
+
 [filestore]
+46.101.118.113
