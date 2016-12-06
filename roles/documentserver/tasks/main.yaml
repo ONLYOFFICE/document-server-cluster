@@ -19,9 +19,8 @@
 
   - name: Add onlyoffice repositories
     apt_repository:
-      repo: {{ package_repo }}
+      repo: "{{ package_repo }}"
       state: present
-      filename: {{ onlyoffice_repo_file }}
     sudo: yes
   
   - name: Say 'yes' to ttf-mscorefonts-installer
@@ -36,5 +35,5 @@
     apt: name={{ item.name }} update_cache=yes force=yes state={{ item.state }}
     with_items:
       - { name: software-properties-common, state: present }
-      - { name: {{ package_name }}, state: latest }
+      - { name: "{{ package_name }}", state: latest }
     sudo: yes

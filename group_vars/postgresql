@@ -1,0 +1,5 @@
+postgresql_databases:
+  - name: onlyoffice
+postgresql_users:
+  - name: onlyoffice
+    password: onlyoffice

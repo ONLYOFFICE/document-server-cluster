@@ -2,5 +2,4 @@
 - hosts: postgresql
   roles:
      - geerlingguy.ntp
-     - geerlingguy.postgresql
-     
+     - geerlingguy.postgresql     

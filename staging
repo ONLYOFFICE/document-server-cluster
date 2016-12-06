@@ -1,6 +1,6 @@
 [loadbalancer]
 [documentservers]
-46.101.118.113
+46.101.118.113 ansible_user=root
 
 [postgresql]
 46.101.118.113
@@ -11,5 +11,5 @@
 [rabbitmq]
 46.101.118.113
 
-[filestore]
+[filestorage]
 46.101.118.113

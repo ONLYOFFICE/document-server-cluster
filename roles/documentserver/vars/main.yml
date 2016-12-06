@@ -1,4 +1,3 @@
- ---
-   onlyoffice_repo_file: /etc/apt/sources.list.d/onlyoffice.list
-   package_name: onlyoffice-documentserver-integration
-   package_repo: "deb http://download.onlyoffice.com/repo/debian squeeze main"
+onlyoffice_repo_file: "onlyoffice"
+package_name: onlyoffice-documentserver-integration
+package_repo: "deb http://download.onlyoffice.com/repo/debian squeeze main"

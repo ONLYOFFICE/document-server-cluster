@@ -1,0 +1,14 @@
+- src: geerlingguy.ntp
+
+- src: geerlingguy.redis
+
+- src: geerlingguy.postgresql
+
+- src: geerlingguy.haproxy
+
+- src: geerlingguy.nodejs
+
+- src: geerlingguy.nfs
+
+- src: Stouts.rabbitmq
+
