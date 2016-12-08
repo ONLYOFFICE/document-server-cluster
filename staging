@@ -2,7 +2,7 @@
 [documentservers]
 46.101.118.113 ansible_user=root
 
-[postgresql]
+[database]
 46.101.118.113
 
 [redis]

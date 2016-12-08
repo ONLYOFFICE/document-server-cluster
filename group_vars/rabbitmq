@@ -1,0 +1,18 @@
+rabbitmq_users:
+#  - user: "admin"
+#    password: "admin"
+#    vhost: /
+#    configure_priv: .*
+#    read_priv: .*
+#    write_priv: .*
+#    tags: administrator
+
+  - user: "onlyoffice"
+    password: "onlyoffice"
+    vhost: /
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    tags: administrator
+
+rabbitmq_users_remove: []

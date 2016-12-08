@@ -2,7 +2,8 @@
 
 - src: geerlingguy.redis
 
-- src: geerlingguy.postgresql
+- src: https://github.com/agolybev/ansible-role-postgresql
+  name: geerlingguy.postgresql
 
 - src: geerlingguy.haproxy
 

@@ -1,4 +1,7 @@
 nodejs_version: "6.x"
 db_server_host: "{{ groups['postgresql'][0] }}"
 redis_server_host: "{{ groups['redis'][0] }}"
-rabbitmq_server_host: "{{ groups['rabbitmq'][0] }}"
+#rabbitmq_server_host: "{{ groups['rabbitmq'][0] }}"
+#rabbitmq_server_user: "onlyoffice"
+#rabbitmq_server_pass: "onlyoffice"
+rabbitmq_server_url: "amqp://onlyoffice:onlyoffice@{{ groups['rabbitmq'][0] }}"

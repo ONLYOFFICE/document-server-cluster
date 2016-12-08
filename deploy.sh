@@ -3,7 +3,7 @@
 INVENTORY=staging
 #PLAYBOOKS+=(filestorage.yaml)
 #PLAYBOOKS+=(loadbalancer.yaml)
-#PLAYBOOKS+=(postgresql.yaml)
+#PLAYBOOKS+=(database.yaml)
 #PLAYBOOKS+=(rabbitmq.yaml)
 #PLAYBOOKS+=(redis.yaml)
 PLAYBOOKS+=(documentservers.yaml)
