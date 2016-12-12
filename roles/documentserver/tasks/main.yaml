@@ -60,6 +60,7 @@
     apt: name={{ item.name }} update_cache=yes force=yes state={{ item.state }}
     with_items:
 #      - { name: software-properties-common, state: present }
+      - { name: nfs-common, state: latest }
       - { name: "{{ package_name }}", state: latest }
     sudo: yes
 
@@ -74,6 +75,20 @@
   - name: Set up rabbitmq url
     shell: "{{ json }} -I -e 'this.rabbitmq.url = \"{{ rabbitmq_server_url }}\"'"
     when: rabbitmq_server_url is defined
+
+  - name:  Mount filestorage
+    mount:
+      name: "{{ filestorage_mount_path }}"
+      src: "{{ filestorage_host }}:{{ filestorage_path }}"
+      fstype: "{{ filestorage_fs }}"
+      state: mounted
+
+  - name: Set up mount point
+    file:
+      path:  "{{ filestorage_mount_path }}"
+      state: directory
+      owner: onlyoffice
+      group: onlyoffice
 
   - name: Restart documentserver
     supervisorctl:

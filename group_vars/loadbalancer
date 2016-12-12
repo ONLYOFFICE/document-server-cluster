@@ -1,0 +1,3 @@
+haproxy_backend_servers:
+  - name: app1
+    address: "{{ groups['documentservers'][0] }}:80"

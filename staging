@@ -1,6 +1,8 @@
 [loadbalancer]
+46.101.118.113
+
 [documentservers]
-46.101.118.113 ansible_user=root
+138.68.77.229 ansible_user=root
 
 [database]
 46.101.118.113
