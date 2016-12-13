@@ -1,3 +1,1 @@
-haproxy_backend_servers:
-  - name: app1
-    address: "{{ groups['documentservers'][0] }}:80"
+haproxy_backend_servers: "[{% for host in groups.documentservers %}{'name': 'documentserver-{{ loop.index }}', 'address': '{{ host }}:80' }{%if not loop.last %},{% endif %}{% endfor %}]"
