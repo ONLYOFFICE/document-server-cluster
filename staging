@@ -4,6 +4,9 @@
 [documentservers]
 138.68.77.229 ansible_user=root
 
+[documentserver-example]
+207.154.196.99 ansible_user=root
+
 [database]
 46.101.118.113
 

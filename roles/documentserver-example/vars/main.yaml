@@ -1,0 +1,3 @@
+document_server_integration: https://github.com/ONLYOFFICE/document-server-integration.git
+document_server_integration_home: /var/lib/onlyoffice
+documentserver_example: "{{ document_server_integration_home }}/web/documentserver-example/nodejs"

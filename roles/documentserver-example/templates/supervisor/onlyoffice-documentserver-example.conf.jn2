@@ -1,0 +1,7 @@
+[program:example]
+command=node  {{ documentserver_example }}/bin/www
+directory={{ documentserver_example }}
+environment=NODE_ENV=production-linux,NODE_CONFIG_DIR={{ documentserver_example }}/config,NODE_DISABLE_COLORS=1
+autostart=true
+autorestart=true
+redirect_stderr=true

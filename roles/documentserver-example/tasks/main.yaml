@@ -1,0 +1,38 @@
+- name: Install git
+  apt:
+    name: git
+    state: present
+  become: yes
+
+- name: Pull example code
+  git:
+    repo: "{{ document_server_integration }}"
+    dest: "{{ document_server_integration_home }}"
+
+- name: Copy supervisor config
+  template:
+    src: "supervisor/onlyoffice-documentserver-example.conf.jn2"
+    dest: "/etc/supervisor/conf.d/onlyoffice-documentserver-example.conf"
+  become: yes
+
+- name: Copy supervisor config
+  template:
+    src: "supervisor/onlyoffice-documentserver.conf.jn2"
+    dest: "/etc/supervisor/conf.d/onlyoffice-documentserver.conf"
+  become: yes
+
+- name: Copy documentserver-example config
+  template:
+    src: "config/local.json.jn2"
+    dest: "{{ documentserver_example }}/config/local.json"
+
+- name: make npm install
+  npm:
+    path: "{{ documentserver_example }}"
+  become: yes
+
+- name: Restart supervisor
+  service:
+    name: supervisor
+    state: restarted
+  become: yes

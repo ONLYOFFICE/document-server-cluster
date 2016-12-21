@@ -7,6 +7,7 @@ INVENTORY=staging
 #PLAYBOOKS+=(rabbitmq.yaml)
 #PLAYBOOKS+=(redis.yaml)
 PLAYBOOKS+=(documentservers.yaml)
+PLAYBOOKS+=(documentserver-example.yaml)
 
 sudo ansible-galaxy install -r requirements.yaml
 

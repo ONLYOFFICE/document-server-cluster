@@ -1,0 +1,6 @@
+{
+  "server": {
+    "port": {{ port }},
+    "siteUrl": "{{ documentserver_url }}"
+  }
+}

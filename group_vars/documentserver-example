@@ -1,0 +1,1 @@
+documentserver_url: "http://{{ groups.loadbalancer | first }}/"

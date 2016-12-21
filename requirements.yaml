@@ -13,3 +13,4 @@
 
 - src: Stouts.rabbitmq
 
+- src: Stouts.supervisor
