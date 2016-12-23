@@ -1,5 +1,15 @@
 ---
 - hosts: filestorage
+
+  pre_tasks:
+  - name: Setup exported path right
+    file:
+      path: "{{ item.strip().split()[0] }}"
+      state: directory
+      owner: nobody
+      group: nogroup
+    with_items: "{{ nfs_exports }}"
+
   roles:
     - geerlingguy.ntp
     - geerlingguy.nfs

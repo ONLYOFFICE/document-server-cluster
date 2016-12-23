@@ -82,13 +82,7 @@
       src: "{{ filestorage_host }}:{{ filestorage_path }}"
       fstype: "{{ filestorage_fs }}"
       state: mounted
-
-  - name: Set up mount point
-    file:
-      path:  "{{ filestorage_mount_path }}"
-      state: directory
-      owner: onlyoffice
-      group: onlyoffice
+      opts: rw
 
   - name: Restart documentserver
     supervisorctl:

@@ -5,7 +5,8 @@
 - src: https://github.com/agolybev/ansible-role-postgresql
   name: geerlingguy.postgresql
 
-- src: geerlingguy.haproxy
+- src: https://github.com/agolybev/ansible-role-haproxy.git
+  name: geerlingguy.haproxy
 
 - src: geerlingguy.nodejs
 

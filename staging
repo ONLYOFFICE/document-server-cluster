@@ -2,6 +2,7 @@
 46.101.118.113
 
 [documentservers]
+138.68.107.20 ansible_user=root
 138.68.77.229 ansible_user=root
 
 [documentserver-example]
