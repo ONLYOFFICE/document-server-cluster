@@ -3,7 +3,6 @@ haproxy_frontend_vars:
   - "reqadd X-Forwarded-Proto:\\ http"
 haproxy_backend_name: "default_service"
 haproxy_backend_httpchk: "GET /healthcheck"
-haproxy_backend_balance_method: "uri depth 3"
 haproxy_backend_vars:
   - "http-check expect string true"
 haproxy_backend_servers: "[{% for host in groups.documentservers %}{'name': 'onlyoffice-documentserver-{{ loop.index }}', 'address': '{{ host }}:80' }{%if not loop.last %},{% endif %}{% endfor %}]"
