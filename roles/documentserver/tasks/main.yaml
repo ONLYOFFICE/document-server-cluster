@@ -13,29 +13,54 @@
     sudo: yes
   
   - name: Say 'yes' to ttf-mscorefonts-installer
-    shell: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+    debconf:
+      name: ttf-mscorefonts-installer
+      question: msttcorefonts/accepted-mscorefonts-eula
+      value: true
+      vtype: boolean
     become: yes
     
   - name: Accept license
-    shell: echo {{ package_name }} onlyoffice/accepted-onlyoffice-license select true | debconf-set-selections
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/accepted-onlyoffice-license
+      value: true
+      vtype: boolean
     become: yes
     
   - name: Set up db host name
-    shell: echo {{ package_name }} onlyoffice/db-host select {{ db_server_host }} | debconf-set-selections
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/db-host
+      value: "{{ db_server_host }}"
+      vtype: string
     when: db_server_host != ""
     become: yes
 
   - name: Set up db name
-    shell: echo {{ package_name }} onlyoffice/db-name select {{ db_server_name }} | debconf-set-selections
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/db-name
+      value: "{{ db_server_name }}"
+      vtype: string
     when: db_server_name != ""
+    become: yes
 
   - name: Set up db user
-    shell: echo {{ package_name }} onlyoffice/db-user select {{ db_server_user }} | debconf-set-selections
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/db-user
+      value: "{{ db_server_user }}"
+      vtype: string
     when: db_server_user != ""
     become: yes
 
   - name: Set up db user password
-    shell: echo {{ package_name }} onlyoffice/db-pwd select {{ db_server_pass }} | debconf-set-selections
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/db-pwd
+      value: "{{ db_server_pass }}"
+      vtype: password
     when: db_server_pass != ""
     become: yes
 
