@@ -1,5 +1,0 @@
----
-- hosts: database
-  roles:
-     - geerlingguy.ntp
-     - geerlingguy.postgresql     

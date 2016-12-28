@@ -32,8 +32,8 @@ postgresql_hba_entries:
     auth_method: md5
 
 postgresql_databases:
-  - name: onlyoffice
+  - name: "{{ db_server_name }}"
 
 postgresql_users:
-  - name: onlyoffice
-    password: onlyoffice
+  - name: "{{ db_server_user }}"
+    password: "{{ db_server_pass }}"

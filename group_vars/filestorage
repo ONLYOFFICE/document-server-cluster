@@ -1,1 +1,2 @@
-nfs_exports: { "/home/public *(rw,sync,all_squash)" }
+nfs_exports:
+ - "{{ filestorage_path }} *(rw,sync,all_squash)"

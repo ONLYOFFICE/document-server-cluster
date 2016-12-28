@@ -1,0 +1,48 @@
+---
+- hosts: database
+  roles:
+     - geerlingguy.ntp
+     - geerlingguy.postgresql     
+
+- hosts: filestorage
+
+  pre_tasks:
+  - name: Setup exported path right
+    file:
+      path: "{{ item.strip().split()[0] }}"
+      state: directory
+      owner: nobody
+      group: nogroup
+    with_items: "{{ nfs_exports }}"
+
+  roles:
+    - geerlingguy.ntp
+    - geerlingguy.nfs
+
+- hosts: rabbitmq
+  roles:
+    - geerlingguy.ntp
+    - Stouts.rabbitmq
+
+- hosts: redis
+  roles:
+     - geerlingguy.ntp
+     - geerlingguy.redis
+
+- hosts: documentservers
+  roles:
+     - geerlingguy.ntp
+     - geerlingguy.nodejs     
+     - documentserver
+
+- hosts: loadbalancer
+  roles:
+    - geerlingguy.ntp
+    - geerlingguy.haproxy
+
+- hosts: documentserver-example
+  roles:
+     - geerlingguy.ntp
+     - geerlingguy.nodejs
+     - Stouts.supervisor
+     - documentserver-example

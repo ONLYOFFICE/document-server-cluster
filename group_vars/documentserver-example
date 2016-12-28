@@ -1,1 +1,1 @@
-documentserver_url: "http://{{ groups.loadbalancer | first }}/"
+documentserver_url: "http://{{ documentserver_host }}/"

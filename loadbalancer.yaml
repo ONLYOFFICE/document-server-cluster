@@ -1,5 +1,0 @@
----
-- hosts: loadbalancer
-  roles:
-    - geerlingguy.ntp
-    - geerlingguy.haproxy

@@ -1,0 +1,17 @@
+db_server_host: "{{ groups.database | first }}"
+db_server_name: onlyoffice
+db_server_user: onlyoffice
+db_server_pass: onlyoffice
+
+redis_server_host: "{{ groups.redis | first }}"
+
+rabbitmq_server_host: "{{ groups.rabbitmq | first }}"
+rabbitmq_server_user: onlyoffice
+rabbitmq_server_pass: onlyoffice
+rabbitmq_server_vpath: /
+
+filestorage_host: "{{ groups.filestorage | first }}"
+filestorage_path: "/home/public"
+filestorage_fs: "nfs"
+
+documentserver_host: "{{ groups.loadbalancer | first }}"

@@ -1,15 +1,7 @@
 rabbitmq_users:
-#  - user: "admin"
-#    password: "admin"
-#    vhost: /
-#    configure_priv: .*
-#    read_priv: .*
-#    write_priv: .*
-#    tags: administrator
-
-  - user: "onlyoffice"
-    password: "onlyoffice"
-    vhost: /
+  - user: "{{ rabbitmq_server_user }}"
+    password: "{{ rabbitmq_server_pass }}"
+    vhost: "{{ rabbitmq_server_vpath }}"
     configure_priv: .*
     read_priv: .*
     write_priv: .*

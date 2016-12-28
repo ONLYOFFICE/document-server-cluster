@@ -1,6 +1,0 @@
----
-- hosts: documentservers
-  roles:
-     - geerlingguy.ntp
-     - geerlingguy.nodejs     
-     - documentserver

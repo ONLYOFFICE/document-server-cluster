@@ -1,7 +1,0 @@
----
-- hosts: documentserver-example
-  roles:
-     - geerlingguy.ntp
-     - geerlingguy.nodejs
-     - Stouts.supervisor
-     - documentserver-example
