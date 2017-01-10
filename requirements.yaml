@@ -15,3 +15,5 @@
 - src: Stouts.rabbitmq
 
 - src: Stouts.supervisor
+
+- src: kamaln7.swapfile

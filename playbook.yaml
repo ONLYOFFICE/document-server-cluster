@@ -1,8 +1,10 @@
 ---
 - hosts: database
+
   roles:
-     - geerlingguy.ntp
-     - geerlingguy.postgresql     
+    - geerlingguy.ntp
+    - kamaln7.swapfile
+    - geerlingguy.postgresql
 
 - hosts: filestorage
 
@@ -17,32 +19,38 @@
 
   roles:
     - geerlingguy.ntp
+    - kamaln7.swapfile
     - geerlingguy.nfs
 
 - hosts: rabbitmq
   roles:
     - geerlingguy.ntp
+    - kamaln7.swapfile
     - Stouts.rabbitmq
 
 - hosts: redis
   roles:
-     - geerlingguy.ntp
-     - geerlingguy.redis
+    - geerlingguy.ntp
+    - kamaln7.swapfile
+    - geerlingguy.redis
 
 - hosts: documentservers
   roles:
-     - geerlingguy.ntp
-     - geerlingguy.nodejs     
-     - documentserver
+    - geerlingguy.ntp
+    - kamaln7.swapfile
+    - geerlingguy.nodejs
+    - documentserver
 
 - hosts: loadbalancer
   roles:
     - geerlingguy.ntp
+    - kamaln7.swapfile
     - geerlingguy.haproxy
 
 - hosts: documentserver-example
   roles:
-     - geerlingguy.ntp
-     - geerlingguy.nodejs
-     - Stouts.supervisor
-     - documentserver-example
+    - geerlingguy.ntp
+    - kamaln7.swapfile
+    - geerlingguy.nodejs
+    - Stouts.supervisor
+    - documentserver-example

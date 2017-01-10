@@ -15,3 +15,5 @@ filestorage_path: "/home/public"
 filestorage_fs: "nfs"
 
 documentserver_host: "{{ groups.loadbalancer | first }}"
+
+swapfile_size: "{{ ansible_memtotal_mb }}MB"
