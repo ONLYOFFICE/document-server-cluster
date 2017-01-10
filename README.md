@@ -11,7 +11,7 @@ The ansible tasks for deploy the DocumentServer Cluster
 
 #### Get the latest version of DocumentServer Cluster source code from GitHub:
 ```
-https://github.com/ONLYOFFICE/document-server-cluster.git
+git clone https://github.com/ONLYOFFICE/document-server-cluster.git
 ```
 #### Switch to the DocumentServer Cluster directory:
 ```
@@ -27,7 +27,7 @@ cd document-server-cluster
 
 #### Note 1: Each section can contain several server addresses, but only the first will be used in the cluster except ```[documentservers]```.
 
-#### Note 2: For the ```[documentservers]``` and ```[documentserver-example]``` sections, parameter ```ansible_user``` is requied..
+#### Note 2: For the ```[documentservers]``` and ```[documentserver-example]``` sections, parameter ```ansible_user``` is requied.
 
 #### Note 3: See the [Managed Node Requirements](https://docs.ansible.com/ansible/intro_installation.html#managed-node-requirements) to the details of initial setup DocumentServer Cluster nodes.
 
