@@ -2,11 +2,11 @@
   apt:
     name: {{ item }}
     state: present
-  become: yes
-  with_item:
+  with_items:
     - git
     - supervisor
-
+  become: yes
+  
 - name: Pull example code
   git:
     repo: "{{ document_server_integration }}"
