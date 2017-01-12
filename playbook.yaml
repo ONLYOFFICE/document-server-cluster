@@ -52,5 +52,5 @@
     - geerlingguy.ntp
     - kamaln7.swapfile
     - geerlingguy.nodejs
-    - Stouts.supervisor
+#    - Stouts.supervisor
     - documentserver-example
