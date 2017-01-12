@@ -1,8 +1,11 @@
-- name: Install git
+- name: Install some packages
   apt:
-    name: git
+    name: {{ item }}
     state: present
   become: yes
+  with_item:
+    - git
+    - supervisor
 
 - name: Pull example code
   git:
