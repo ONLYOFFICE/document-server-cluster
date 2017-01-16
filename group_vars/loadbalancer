@@ -2,7 +2,7 @@ haproxy_frontend_name: "default_port_80"
 haproxy_frontend_vars:
   - "reqadd X-Forwarded-Proto:\\ http"
 haproxy_backend_name: "default_service"
-haproxy_backend_httpchk: "GET /healthcheck"
+haproxy_backend_httpchk: "HEAD /ConvertService.ashx"
 haproxy_backend_vars:
-  - "http-check expect string true"
+  - "http-check expect status 200"
 haproxy_backend_servers: "[{% for host in groups.documentservers %}{'name': 'onlyoffice-documentserver-{{ loop.index }}', 'address': '{{ host }}:80' }{%if not loop.last %},{% endif %}{% endfor %}]"
