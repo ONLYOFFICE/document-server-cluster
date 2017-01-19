@@ -74,7 +74,14 @@ filestorage
 
 ### Running DocumentServer Cluster using HTTPS
 
+#### STEP 1
+In file ```groups_vars/all``` replace ```loadbalancer_ssl: false``` with ```loadbalancer_ssl: true```
+
+#### STEP 2
 Create the ```/app/onlyoffice/DocumentServer/data/certs/onlyoffice.pem``` file that contains a certificate and a private key
+
+#### STEP 3
+Deploy cluster
 
 When using CA certified certificates, the **Private key (.key)** and **SSL certificate (.crt)** are provided to you by the CA. When using self-signed certificates you need to generate these files yourself. Skip **steps 1-3** in the following section if you have CA certified SSL certificates.
 
