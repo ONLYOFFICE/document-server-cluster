@@ -72,4 +72,35 @@ filestorage
 ./deploy.sh
 ```
 
+### Running DocumentServer Cluster using HTTPS
 
+Create the ```/app/onlyoffice/DocumentServer/data/certs/onlyoffice.pem``` file that contains a certificate and a private key
+
+When using CA certified certificates, the **Private key (.key)** and **SSL certificate (.crt)** are provided to you by the CA. When using self-signed certificates you need to generate these files yourself. Skip **steps 1-3** in the following section if you have CA certified SSL certificates.
+
+#### Generation of Self Signed Certificates
+
+Generation of self-signed SSL certificates involves a simple 3 step procedure.
+
+**STEP 1**: Create the server private key
+
+```bash
+openssl genrsa -out onlyoffice.key 2048
+```
+
+**STEP 2**: Create the certificate signing request (CSR)
+
+```bash
+openssl req -new -key onlyoffice.key -out onlyoffice.csr
+```
+
+**STEP 3**: Sign the certificate using the private key and CSR
+
+```bash
+openssl x509 -req -days 365 -in onlyoffice.csr -signkey onlyoffice.key -out onlyoffice.crt
+```
+**STEP 4**: Merge both the files
+```
+cp onlyoffice.crt onlyoffice.pem
+cat onlyoffice.key >> onlyoffice.pem
+```
