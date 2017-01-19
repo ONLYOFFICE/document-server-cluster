@@ -1,1 +1,1 @@
-documentserver_url: "http://{{ documentserver_host }}/"
+documentserver_url: "{{ documentserver_proto }}://{{ documentserver_host }}/"

@@ -1,6 +1,6 @@
 haproxy_frontend_name: "default_port_80"
-haproxy_frontend_vars:
-  - "reqadd X-Forwarded-Proto:\\ http"
+haproxy_frontend_ssl: "{{ loadbalancer_ssl }}"
+haproxy_frontend_ssl_certificate: "{{ loadbalancer_ssl_certificate }}"
 haproxy_backend_name: "default_service"
 haproxy_backend_httpchk: "HEAD /ConvertService.ashx"
 haproxy_backend_vars:

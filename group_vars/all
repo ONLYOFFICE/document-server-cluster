@@ -15,5 +15,11 @@ filestorage_path: "/home/public"
 filestorage_fs: "nfs"
 
 documentserver_host: "{{ groups.loadbalancer | first }}"
+documentserver_proto: "http{% if loadbalancer_ssl %}s{% endif %}"
 
 swapfile_size: "{{ ansible_memtotal_mb }}MB"
+
+ssl_certificate: /app/onlyoffice/DocumentServer/data/certs/onlyoffice.crt
+
+loadbalancer_ssl: false
+loadbalancer_ssl_certificate: "/etc/ssl/{{ ssl_certificate | basename }}"
