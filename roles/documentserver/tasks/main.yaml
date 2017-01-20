@@ -24,7 +24,7 @@
     debconf:
       name: "{{ package_name }}"
       question: onlyoffice/accepted-onlyoffice-license
-      value: true
+      value: 'true'
       vtype: boolean
     become: yes
     
@@ -62,6 +62,14 @@
       value: "{{ db_server_pass }}"
       vtype: password
     when: db_server_pass != ""
+    become: yes
+
+  - name: Set up cluster mode
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/cluster-mode
+      value: 'true'
+      vtype: boolean
     become: yes
 
   - name: Unmount existed filestorage
@@ -102,6 +110,9 @@
       opts: rw
     when: (filestorage_host != "") and (filestorage_path != "") and (filestorage_fs != "")
     become: yes
+
+  - name: Create db if it not exist
+    shell: "{{ psql }} -f {{ createdb_sql }}"
 
   - name: Restart documentserver
     supervisorctl:
