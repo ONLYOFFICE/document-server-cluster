@@ -14,6 +14,10 @@ filestorage_host: "{{ groups.filestorage | first }}"
 filestorage_path: "/home/public"
 filestorage_fs: "nfs"
 
+fonts_host: "{{ groups.filestorage | first }}"
+fonts_path: "/usr/share/fonts"
+fonts_fs: "nfs"
+
 documentserver_host: "{{ groups.loadbalancer | first }}"
 documentserver_proto: "http{% if loadbalancer_ssl %}s{% endif %}"
 

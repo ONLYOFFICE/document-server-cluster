@@ -82,6 +82,26 @@
     become: yes
     ignore_errors: yes
 
+  - name: Unmount existed fonts
+    mount:
+      name: "{{ fonts_mount_path }}"
+      src: "{{ fonts_host }}:{{ fonts_path }}"
+      fstype: "{{ fonts_fs }}"
+      state: unmounted
+    when: (fonts_host != "") and (fonts_path != "") and (fonts_fs != "")
+    become: yes
+    ignore_errors: yes
+
+  - name:  Mount fonts
+    mount:
+      name: "{{ fonts_mount_path }}"
+      src: "{{ fonts_host }}:{{ fonts_path }}"
+      fstype: "{{ fonts_fs }}"
+      state: mounted
+      opts: ro
+    when: (fonts_host != "") and (fonts_path != "") and (fonts_fs != "")
+    become: yes
+
   - name: Install packages
     apt: name={{ item.name }} update_cache=yes force=yes state={{ item.state }}
     with_items:
@@ -113,6 +133,9 @@
 
   - name: Create db if it not exist
     shell: "{{ psql }} -f {{ createdb_sql }}"
+
+  - name: Regenerate AllFonts.js file
+    shell: "documentserver-generate-allfonts.sh true"
 
   - name: Restart documentserver
     supervisorctl:

@@ -21,6 +21,7 @@
     - geerlingguy.ntp
     - kamaln7.swapfile
     - geerlingguy.nfs
+    - documentserver-fonts
 
 - hosts: rabbitmq
   roles:
