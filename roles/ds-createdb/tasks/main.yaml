@@ -1,0 +1,8 @@
+---
+  - name: Download db schema 
+    get_url:
+      url: "{{ ds_schema_url }}"
+      dest: "{{ ds_schema }}"
+
+  - name: Create db
+    shell: "{{ psql }}"

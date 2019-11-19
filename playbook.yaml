@@ -2,9 +2,10 @@
 - hosts: database
 
   roles:
-    - geerlingguy.ntp
-    - kamaln7.swapfile
-    - geerlingguy.postgresql
+    - { role: geerlingguy.ntp, become: yes }
+    - { role: kamaln7.swapfile, become: yes }
+    - { role: geerlingguy.postgresql, become: yes }
+    - { role: ds-createdb, become: yes }
 
 - hosts: filestorage
 
@@ -16,47 +17,48 @@
       owner: nobody
       group: nogroup
     with_items: "{{ nfs_exports }}"
+    become: yes
 
   roles:
-    - geerlingguy.ntp
-    - kamaln7.swapfile
-    - geerlingguy.nfs
-    - documentserver-fonts
+    - { role: geerlingguy.ntp, become: yes }
+    - { role: kamaln7.swapfile, become: yes }
+    - { role: geerlingguy.nfs, become: yes }
+    - { role: documentserver-fonts, become: yes }
 
 - hosts: rabbitmq
   roles:
-    - geerlingguy.ntp
-    - kamaln7.swapfile
-    - Stouts.rabbitmq
+    - { role: geerlingguy.ntp, become: yes }
+    - { role: kamaln7.swapfile, become: yes }
+    - { role: Stouts.rabbitmq, become: yes }
 
 - hosts: redis
   roles:
-    - geerlingguy.ntp
-    - kamaln7.swapfile
-    - geerlingguy.redis
+    - { role: geerlingguy.ntp, become: yes }
+    - { role: kamaln7.swapfile, become: yes }
+    - { role: geerlingguy.redis, become: yes }
 
 - hosts: documentservers
   roles:
-    - geerlingguy.ntp
-    - kamaln7.swapfile
-    - geerlingguy.nodejs
-    - documentserver
+    - { role: geerlingguy.ntp, become: yes }
+    - { role: kamaln7.swapfile, become: yes }
+    - { role: geerlingguy.nodejs, become: yes }
+    - { role: documentserver, become: yes }
 
 - hosts: loadbalancer
   pre_tasks:
   - name: Copy certificate
     copy: src="{{ ssl_certificate }}" dest="{{ loadbalancer_ssl_certificate  }}"
     when: "{{ loadbalancer_ssl }}"
+    become: yes
 
   roles:
-    - geerlingguy.ntp
-    - kamaln7.swapfile
-    - geerlingguy.haproxy
+    - { role: geerlingguy.ntp, become: yes }
+    - { role: kamaln7.swapfile, become: yes }
+    - { role: geerlingguy.haproxy, become: yes }
 
 - hosts: documentserver-example
   roles:
-    - geerlingguy.ntp
-    - kamaln7.swapfile
-    - geerlingguy.nodejs
-#    - Stouts.supervisor
-    - documentserver-example
+    - { role: geerlingguy.ntp, become: yes }
+    - { role: kamaln7.swapfile, become: yes }
+    - { role: geerlingguy.nodejs, become: yes }
+    - { role: documentserver-example, become: yes }

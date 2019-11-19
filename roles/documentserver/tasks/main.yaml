@@ -10,7 +10,7 @@
     apt_repository:
       repo: "{{ package_repo }}"
       state: present
-    sudo: yes
+    become: yes
   
   - name: Say 'yes' to ttf-mscorefonts-installer
     debconf:
@@ -64,6 +64,42 @@
     when: db_server_pass != ""
     become: yes
 
+  - name: Set up rabbitmq host
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/rabbitmq-host
+      value: "{{ rabbitmq_server_host }}{{ rabbitmq_server_vpath }}"
+      vtype: string
+    when: (rabbitmq_server_host != "") and (rabbitmq_server_vpath != "")
+    become: yes
+
+  - name: Set up rabbitmq user
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/rabbitmq-user
+      value: "{{ rabbitmq_server_user }}"
+      vtype: string
+    when: rabbitmq_server_user != ""
+    become: yes
+
+  - name: Set up rabbitmq user password
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/rabbitmq-pwd
+      value: "{{ rabbitmq_server_pass }}"
+      vtype: password
+    when: rabbitmq_server_pass != ""
+    become: yes
+
+  - name: Set up redis host
+    debconf:
+      name: "{{ package_name }}"
+      question: onlyoffice/redis-host
+      value: "{{ redis_server_host }}"
+      vtype: string
+    when: redis_server_host != ""
+    become: yes
+
   - name: Set up cluster mode
     debconf:
       name: "{{ package_name }}"
@@ -71,6 +107,9 @@
       value: 'true'
       vtype: boolean
     become: yes
+
+  - name: Install packages nfs-common
+    apt: name=nfs-common update_cache=yes force=yes state=latest
 
   - name: Unmount existed filestorage
     mount:
@@ -105,22 +144,11 @@
   - name: Install packages
     apt: name={{ item.name }} update_cache=yes force=yes state={{ item.state }}
     with_items:
-      - { name: nfs-common, state: latest }
       - { name: "{{ package_name }}", state: latest }
     become: yes
 
-  - name: Set up redis host name
-    shell: "{{ json }} -I -e 'this.services.CoAuthoring.redis.host  = \"{{ redis_server_host }}\"'"
-    when: redis_server_host != ""
-
-  - name: Set up redis port number
-    shell: "{{ json }} -I -e 'this.services.CoAuthoring.redis.port  = \"{{ redis_server_port }}\"'"
-    when: redis_server_port != ""
-
-  - name: Set up rabbitmq url
-    shell: "{{ json }} -I -e 'this.rabbitmq.url = \"{{ rabbitmq_server_url }}\"'"
-    when: rabbitmq_server_url != ""
-
+  # Mount cash folder after installation ds 
+  # otherwise install fails in postinstall script on chown command
   - name:  Mount filestorage
     mount:
       name: "{{ filestorage_mount_path }}"
@@ -129,19 +157,4 @@
       state: mounted
       opts: rw
     when: (filestorage_host != "") and (filestorage_path != "") and (filestorage_fs != "")
-    become: yes
-
-  - name: Create db if it not exist
-    shell: "{{ psql }} -f {{ createdb_sql }}"
-
-  - name: Regenerate AllFonts.js file
-    shell: "documentserver-generate-allfonts.sh true"
-
-  - name: Restart documentserver
-    supervisorctl:
-      name: "{{ item }}"
-      state: restarted
-    with_items:
-    - 'onlyoffice-documentserver:converter'
-    - 'onlyoffice-documentserver:docservice'
     become: yes
