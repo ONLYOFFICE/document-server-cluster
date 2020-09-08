@@ -1,7 +1,0 @@
----
-- name: configure haproxy server
-  hosts: haproxy
-
-  roles:
-    - haproxy_redis
-    - wftech.haproxy
