@@ -8,3 +8,20 @@
   hosts: redis-slave
   roles:
     - davidwittman.redis
+
+- name: configure redis sentinel nodes
+  hosts: redis-sentinel
+  vars:
+    - redis_sentinel_monitors:
+      - name: master01
+        host: "{{ groups['redis-master'][0] }}"
+        port: 6379
+    - redis_sentinel: True
+  roles:
+    - davidwittman.redis
+
+- name: configure haproxy server
+  hosts: haproxy
+  roles:
+    - haproxy_redis
+    - wftech.haproxy
