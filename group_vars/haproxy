@@ -1,0 +1,39 @@
+---
+haproxy_config_global: |
+
+    log /dev/log local0 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+haproxy_config_defaults: |
+
+    log global
+    retries 3
+    timeout connect 10s
+    timeout server 1m
+    timeout client 1m
+
+haproxy_frontends:
+  - name: redis_frontend
+    bind: "*:6379"
+    config: |
+      mode tcp
+      default_backend             redis-backend
+
+haproxy_backends:
+  - name: redis-backend
+    config: |
+      mode tcp
+      option tcplog
+      option tcp-check
+      tcp-check send PING\r\n
+      tcp-check expect string +PONG
+      tcp-check send info\ replication\r\n
+      tcp-check expect string role:master
+      tcp-check send QUIT\r\n
+      tcp-check expect string +OK
+      {% for host in groups['cluster'] %}
+      server {{ host }} {{ host }}:6379 check inter 3s
+      {% endfor %}

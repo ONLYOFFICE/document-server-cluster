@@ -1,0 +1,11 @@
+---
+- name: configure redis sentinel nodes
+  hosts: redis-sentinel
+  vars:
+    - redis_sentinel_monitors:
+      - name: master01
+        host: "{{ groups['redis-master'][0] }}"
+        port: 6379
+    - redis_sentinel: True
+  roles:
+    - davidwittman.redis

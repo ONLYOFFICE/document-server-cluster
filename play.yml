@@ -1,0 +1,10 @@
+---
+- name: configure the master redis server
+  hosts: redis-master
+  roles:
+    - davidwittman.redis
+
+- name: configure redis slaves
+  hosts: redis-slave
+  roles:
+    - davidwittman.redis
