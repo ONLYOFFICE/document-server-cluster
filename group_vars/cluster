@@ -1,6 +1,5 @@
 ---
-redis_version: 5.0.7
-redis_protected_mode: "no"
+redis_version: 3.0.7
 redis_timeout: 300
 redis_logfile: /var/log/redis/redis-server.log
 redis_syslog_enabled: "no"
