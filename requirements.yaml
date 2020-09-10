@@ -1,6 +1,9 @@
 - src: geerlingguy.ntp
 
-- src: geerlingguy.redis
+- src: https://github.com/DavidWittman/ansible-redis
+  name: davidwittman.redis
+  
+- src: wftech.haproxy
 
 - src: https://github.com/agolybev/ansible-role-postgresql
   name: geerlingguy.postgresql
@@ -15,8 +18,3 @@
 - src: Stouts.rabbitmq
 
 - src: kamaln7.swapfile
-
-- src: https://github.com/DavidWittman/ansible-redis
-  name: davidwittman.redis
-  
-- src: wftech.haproxy
