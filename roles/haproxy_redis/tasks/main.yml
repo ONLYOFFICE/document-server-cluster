@@ -1,3 +1,0 @@
----
-- include_tasks: haproxy_connect.yml
-  when: ansible_os_family == 'RedHat'

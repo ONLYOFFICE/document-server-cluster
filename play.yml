@@ -20,8 +20,14 @@
   roles:
     - davidwittman.redis
 
+- name: configure haproxy selinux
+  hosts: haproxy
+  tasks:
+  - name: configuring selinux
+    command: setsebool -P haproxy_connect_any=1
+    when: ansible_os_family == 'RedHat'
+
 - name: configure haproxy server
   hosts: haproxy
   roles:
-    - haproxy_redis
     - wftech.haproxy
