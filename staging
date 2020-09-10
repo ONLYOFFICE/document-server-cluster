@@ -15,7 +15,6 @@ loadbalancer
 documentservers
 documentserver-example
 database
-redis
 rabbitmq
 filestorage
 
