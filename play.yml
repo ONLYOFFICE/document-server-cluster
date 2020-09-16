@@ -2,12 +2,12 @@
 - name: configure the master redis server
   hosts: redis-master
   roles:
-    - davidwittman.redis
+    - { role: davidwittman.redis, become: yes }
 
 - name: configure redis slaves
   hosts: redis-slave
   roles:
-    - davidwittman.redis
+    - { role: davidwittman.redis, become: yes }
 
 - name: configure redis sentinel nodes
   hosts: redis-sentinel
@@ -18,7 +18,7 @@
         port: 6379
     - redis_sentinel: True
   roles:
-    - davidwittman.redis
+    - { role: davidwittman.redis, become: yes }
 
 - name: configure haproxy selinux
   hosts: haproxy
@@ -26,8 +26,9 @@
   - name: configuring selinux
     command: setsebool -P haproxy_connect_any=1
     when: ansible_os_family == 'RedHat'
+  become: yes
 
 - name: configure haproxy server
   hosts: haproxy
   roles:
-    - wftech.haproxy
+    - { role: wftech.haproxy, become: yes }
