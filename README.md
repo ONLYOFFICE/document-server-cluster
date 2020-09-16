@@ -46,9 +46,6 @@ example_server_address ansible_user=root
 [database]
 database_server_address
 
-[redis]
-redis_server_address
-
 [rabbitmq]
 rabbitmq_server_address
 
@@ -63,6 +60,31 @@ database
 redis
 rabbitmq
 filestorage
+
+[redis-master]
+redis_master_server_address
+
+[redis-slave]
+redis_slave_server_address_1
+redis_slave_server_address_2
+
+[cluster:children]
+redis-master
+redis-slave
+
+[redis-sentinel]
+redis_sentinel_server_address_1
+redis_sentinel_server_address_2
+redis_sentinel_server_address_3
+
+[haproxy]
+haproxy_server_address
+
+[redis_cluster:children]
+redis-master
+redis-slave
+redis-sentinel
+haproxy
 ```
 
 ### Step 4
