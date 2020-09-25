@@ -12,6 +12,10 @@
 
 - src: geerlingguy.nfs
 
-- src: Stouts.rabbitmq
+- src: rockandska.erlang
+
+- src: rockandska.rabbitmq
+
+- src: wftech.haproxy
 
 - src: kamaln7.swapfile

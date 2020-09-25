@@ -1,0 +1,32 @@
+---
+haproxy_config_global: |
+
+    log /dev/log local0 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+haproxy_config_defaults: |
+
+    log global
+    retries 3
+    timeout connect 10s
+    timeout server 3h
+    timeout client 3h
+
+haproxy_frontends:
+  - name: rabbit_frontend
+    bind: "*:5672"
+    config: |
+      mode tcp
+      default_backend             rabbit-backend
+
+haproxy_backends:
+  - name: rabbit-backend
+    config: |
+      mode tcp
+      option tcplog
+      {% for host in groups['rabbitmq'] %}
+      server {{ host }} {{ host }}:5672 check inter 5s fall 3 rise 2
+      {% endfor %}

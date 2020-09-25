@@ -8,9 +8,21 @@
 
 [redis]
 
-[rabbitmq]
-
 [filestorage]
+
+[rabbitmq-master]
+
+[rabbitmq-slave]
+
+[rabbitmq:children]
+rabbitmq-master
+rabbitmq-slave
+
+[haproxy_rabbit]
+
+[all-rabbit:children]
+rabbitmq
+haproxy_rabbit
 
 [all:children]
 loadbalancer
