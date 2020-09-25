@@ -18,11 +18,11 @@
 rabbitmq-master
 rabbitmq-slave
 
-[haproxy_rabbit]
+[haproxy_rabbitmq]
 
-[all-rabbit:children]
+[all-rabbitmq:children]
 rabbitmq
-haproxy_rabbit
+haproxy_rabbitmq
 
 [all:children]
 loadbalancer
@@ -30,5 +30,5 @@ documentservers
 documentserver-example
 database
 redis
-rabbitmq
+rabbitmq-master
 filestorage

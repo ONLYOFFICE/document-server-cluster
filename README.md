@@ -49,11 +49,26 @@ database_server_address
 [redis]
 redis_server_address
 
-[rabbitmq]
-rabbitmq_server_address
-
 [filestorage]
 filestorage_server_address
+
+[rabbitmq-master]
+rabbitmq_master_server_address
+
+[rabbitmq-slave]
+rabbitmq_slave_server_address_1
+rabbitmq_slave_server_address_2
+
+[rabbitmq:children]
+rabbitmq-master
+rabbitmq-slave
+
+[haproxy_rabbitmq]
+haproxy_server_address
+
+[all-rabbitmq:children]
+rabbitmq
+haproxy_rabbitmq
 
 [all:children]
 loadbalancer
@@ -61,7 +76,7 @@ documentservers
 documentserver-example
 database
 redis
-rabbitmq
+rabbitmq-master
 filestorage
 ```
 

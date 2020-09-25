@@ -1,6 +1,6 @@
 ---
 - name: configure /etc/hosts
-  hosts: all-rabbit
+  hosts: all-rabbitmq
   become: yes
   tasks:
   - name: Update /etc/hosts
@@ -40,7 +40,7 @@
   become: yes
 
 - name: configure haproxy selinux
-  hosts: haproxy_rabbit
+  hosts: haproxy_rabbitmq
   tasks:
   - name: configuring selinux
     command: setsebool -P haproxy_connect_any=1
@@ -48,6 +48,6 @@
   become: yes
 
 - name: configure haproxy server
-  hosts: haproxy_rabbit
+  hosts: haproxy_rabbitmq
   roles:
     - { role: wftech.haproxy, become: yes }

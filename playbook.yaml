@@ -25,12 +25,6 @@
     - { role: geerlingguy.nfs, become: yes }
     - { role: documentserver-fonts, become: yes }
 
-- hosts: rabbitmq
-  roles:
-    - { role: geerlingguy.ntp, become: yes }
-    - { role: kamaln7.swapfile, become: yes }
-    - { role: Stouts.rabbitmq, become: yes }
-
 - hosts: redis
   roles:
     - { role: geerlingguy.ntp, become: yes }
