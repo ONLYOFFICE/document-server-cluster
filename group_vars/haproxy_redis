@@ -34,6 +34,6 @@ haproxy_backends:
       tcp-check expect string role:master
       tcp-check send QUIT\r\n
       tcp-check expect string +OK
-      {% for host in groups['cluster'] %}
+      {% for host in groups['redis'] %}
       server {{ host }} {{ host }}:6379 check inter 3s
       {% endfor %}

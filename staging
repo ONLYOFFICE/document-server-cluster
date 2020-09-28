@@ -22,16 +22,16 @@ filestorage
 
 [redis-slave]
 
-[cluster:children]
+[redis:children]
 redis-master
 redis-slave
 
 [redis-sentinel]
 
-[haproxy]
+[haproxy_redis]
 
 [redis_cluster:children]
 redis-master
 redis-slave
 redis-sentinel
-haproxy
+haproxy_redis

@@ -3,7 +3,7 @@ db_server_name: onlyoffice
 db_server_user: onlyoffice
 db_server_pass: onlyoffice
 
-redis_server_host: "{{ groups.redis | first }}"
+redis_server_host: "{{ groups.haproxy_redis | first }}"
 
 rabbitmq_server_host: "{{ groups.rabbitmq | first }}"
 rabbitmq_server_user: onlyoffice
