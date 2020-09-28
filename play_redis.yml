@@ -21,7 +21,7 @@
     - { role: davidwittman.redis, become: yes }
 
 - name: configure haproxy selinux
-  hosts: haproxy
+  hosts: haproxy_redis
   tasks:
   - name: configuring selinux
     command: setsebool -P haproxy_connect_any=1
@@ -29,6 +29,6 @@
   become: yes
 
 - name: configure haproxy server
-  hosts: haproxy
+  hosts: haproxy_redis
   roles:
     - { role: wftech.haproxy, become: yes }
