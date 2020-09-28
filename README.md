@@ -1,6 +1,22 @@
 # documentserver-cluster
 The ansible tasks for deploy the DocumentServer Cluster
 
+## Requirements on remote hosts
+### OS Platforms for rabbitmq cluster nodes:
+```
+Debian	stretch
+EL	7
+Ubuntu	bionic
+```
+### OS Platforms for the Haproxy host:
+```
+Debian	buster
+Debian	jessie
+Debian	stretch
+EL	7
+Ubuntu	bionic
+```
+
 ## How to use it
 
 ### Step 1
