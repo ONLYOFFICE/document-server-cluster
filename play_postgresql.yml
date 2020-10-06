@@ -1,0 +1,32 @@
+---
+- name: configure zookeeper
+  hosts: zookeeper
+  roles:
+    - andrewrothstein.zookeeper-cluster
+
+- name: install packages
+  hosts: database
+  become: yes
+  tasks:
+  - name: install packages centos-release-scl
+    yum: name=centos-release-scl state=latest
+    when: ansible_os_family == 'RedHat'
+
+- name: install postgresql-servers
+  hosts: database
+  become: yes
+  roles:
+    - kostiantyn-nemchenko.patroni
+
+- name: configure haproxy selinux
+  hosts: haproxy_postgresql
+  tasks:
+  - name: configuring selinux
+    command: setsebool -P haproxy_connect_any=1
+    when: ansible_os_family == 'RedHat'
+  become: yes
+
+- name: configure haproxy server
+  hosts: haproxy_postgresql
+  roles:
+    - { role: wftech.haproxy, become: yes }
