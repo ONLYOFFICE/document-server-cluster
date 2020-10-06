@@ -2,9 +2,6 @@
 
 - src: geerlingguy.redis
 
-# - src: https://github.com/agolybev/ansible-role-postgresql
-#   name: geerlingguy.postgresql
-
 - src: https://github.com/andrewrothstein/ansible-zookeeper
   name: andrewrothstein.zookeeper
 

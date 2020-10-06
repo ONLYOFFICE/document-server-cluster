@@ -1,6 +1,49 @@
 # documentserver-cluster
 The ansible tasks for deploy the DocumentServer Cluster
 
+## Requirements on remote hosts
+
+### OS Platforms for zookeeper cluster nodes:
+
+```
+Debian	buster
+Debian	jessie
+Debian	stretch
+EL	7
+Fedora	23
+Fedora	24
+Fedora	25
+Fedora	26
+Fedora	27
+Fedora	28
+Fedora	29
+Fedora	30
+Fedora	31
+Ubuntu	bionic
+Ubuntu	xenial
+```
+
+### OS Platforms for postgresql cluster nodes:
+
+```
+Debian	jessie
+Debian	stretch
+EL	6
+EL	7
+Ubuntu	bionic
+Ubuntu	xenial
+```
+
+### OS Platforms for the Haproxy host:
+
+```
+Debian	buster
+Debian	jessie
+Debian	stretch
+EL	7
+Ubuntu	bionic
+```
+
 ## How to use it
 
 ### Step 1

@@ -42,6 +42,6 @@ haproxy_backends:
       option httpchk
       http-check expect status 200
       default-server inter 3s fall 3 rise 2 on-marked-down shutdown-sessions
-      {% for host in groups['postgresql-servers'] %}
+      {% for host in groups['database'] %}
       server {{ host }} {{ host }}:5432 maxconn 100 check port 8008
       {% endfor %}
