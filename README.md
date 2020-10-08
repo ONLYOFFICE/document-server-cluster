@@ -87,22 +87,15 @@ documentserver_server_address_2 ansible_user=root
 example_server_address ansible_user=root
 
 [zookeeper]
-zookeeper_server_IP_address_1 zookeeper_myid=0
-zookeeper_server_IP_address_2 zookeeper_myid=1
-zookeeper_server_IP_address_3 zookeeper_myid=2
-zookeeper_server_IP_address_N zookeeper_myid=N
+database_server_address_1 zookeeper_myid=0
+database_server_address_2 zookeeper_myid=1
+database_server_address_3 zookeeper_myid=2
 
-[zookeeper-quorum]
-zookeeper_server_IP_address_1
-zookeeper_server_IP_address_2
-zookeeper_server_IP_address_3
-zookeeper_server_IP_address_N
+[zookeeper-quorum:children]
+zookeeper
 
-[database]
-zookeeper_server_IP_address_1
-zookeeper_server_IP_address_2
-zookeeper_server_IP_address_3
-zookeeper_server_IP_address_N
+[database:children]
+zookeeper
 
 [haproxy_postgresql]
 haproxy_server_address
@@ -131,7 +124,6 @@ redis
 rabbitmq
 filestorage
 ```
-**Note: the `[zookeeper]`, ```[zookeeper-quorum]```, and `[database]` groups must have the same IP addresses**
 
 ### Step 4
 

@@ -1,8 +1,21 @@
 ---
+- name: configure /etc/hosts
+  hosts: all-postgresql
+  become: yes
+  tasks:
+  - name: Update /etc/hosts
+    blockinfile:
+      path: /etc/hosts
+      create: yes
+      block: |
+        {% for host in groups['zookeeper'] %}
+        {{ hostvars[host].ansible_default_ipv4.address }}  {{ hostvars[host].ansible_fqdn }}  {{ hostvars[host].ansible_hostname }}
+        {% endfor  %}
+
 - name: configure zookeeper
   hosts: zookeeper
   roles:
-    - andrewrothstein.zookeeper-cluster
+    - { role: andrewrothstein.zookeeper-cluster, become: yes }
 
 - name: install packages
   hosts: database
@@ -14,9 +27,8 @@
 
 - name: install postgresql-servers
   hosts: database
-  become: yes
   roles:
-    - kostiantyn-nemchenko.patroni
+    - { role: kostiantyn-nemchenko.patroni, become: yes }
 
 - name: configure haproxy selinux
   hosts: haproxy_postgresql

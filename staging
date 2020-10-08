@@ -6,9 +6,11 @@
 
 [zookeeper]
 
-[zookeeper-quorum]
+[zookeeper-quorum:children]
+zookeeper
 
-[database]
+[database:children]
+zookeeper
 
 [haproxy_postgresql]
 
