@@ -3,6 +3,45 @@ The ansible tasks for deploy the DocumentServer Cluster
 
 ## Requirements on remote hosts
 
+### OS Platforms for redis cluster nodes:
+```
+Debian	bullseye
+Debian	buster
+Debian	etch
+Debian	jessie
+Debian	lenny
+Debian	sid
+Debian	squeeze
+Debian	stretch
+Debian	wheezy
+EL	6
+EL	7
+SLES	11
+SLES	12
+Ubuntu	artful
+Ubuntu	bionic
+Ubuntu	cosmic
+Ubuntu	cuttlefish
+Ubuntu	disco
+Ubuntu	eoan
+Ubuntu	focal
+Ubuntu	lucid
+Ubuntu	maverick
+Ubuntu	natty
+Ubuntu	oneiric
+Ubuntu	precise
+Ubuntu	quantal
+Ubuntu	raring
+Ubuntu	saucy
+Ubuntu	trusty
+Ubuntu	utopic
+Ubuntu	vivid
+Ubuntu	wily
+Ubuntu	xenial
+Ubuntu	yakkety
+Ubuntu	zesty
+```
+
 ### OS Platforms for rabbitmq cluster nodes:
 ```
 Debian	stretch
@@ -113,9 +152,6 @@ zookeeper-quorum
 database
 haproxy_postgresql
 
-[redis]
-redis_server_address
-
 [filestorage]
 filestorage_server_address
 
@@ -136,6 +172,31 @@ haproxy_server_address
 [all-rabbitmq:children]
 rabbitmq
 haproxy_rabbitmq
+
+[redis-master]
+redis_master_server_address
+
+[redis-slave]
+redis_slave_server_address_1
+redis_slave_server_address_2
+
+[redis:children]
+redis-master
+redis-slave
+
+[redis-sentinel]
+redis_sentinel_server_address_1
+redis_sentinel_server_address_2
+redis_sentinel_server_address_3
+
+[haproxy_redis]
+haproxy_server_address
+
+[redis_cluster:children]
+redis-master
+redis-slave
+redis-sentinel
+haproxy
 
 [all:children]
 loadbalancer

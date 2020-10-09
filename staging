@@ -20,8 +20,6 @@ zookeeper-quorum
 database
 haproxy_postgresql
 
-[redis]
-
 [filestorage]
 
 [rabbitmq-master]
@@ -37,6 +35,24 @@ rabbitmq-slave
 [all-rabbitmq:children]
 rabbitmq
 haproxy_rabbitmq
+
+[redis-master]
+
+[redis-slave]
+
+[redis:children]
+redis-master
+redis-slave
+
+[redis-sentinel]
+
+[haproxy_redis]
+
+[redis_cluster:children]
+redis-master
+redis-slave
+redis-sentinel
+haproxy_redis
 
 [all:children]
 loadbalancer
