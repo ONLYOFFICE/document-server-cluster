@@ -5,8 +5,15 @@
   
 - src: wftech.haproxy
 
-- src: https://github.com/agolybev/ansible-role-postgresql
-  name: geerlingguy.postgresql
+- src: https://github.com/andrewrothstein/ansible-zookeeper
+  name: andrewrothstein.zookeeper
+
+- src: https://github.com/ONLYOFFICE/ansible-zookeeper-cluster
+  name: andrewrothstein.zookeeper-cluster
+
+- src: kostiantyn-nemchenko.patroni
+
+- src: wftech.haproxy
 
 - src: https://github.com/agolybev/ansible-role-haproxy.git
   name: geerlingguy.haproxy
@@ -15,6 +22,10 @@
 
 - src: geerlingguy.nfs
 
-- src: Stouts.rabbitmq
+- src: rockandska.erlang
+
+- src: rockandska.rabbitmq
+
+- src: wftech.haproxy
 
 - src: kamaln7.swapfile

@@ -8,4 +8,8 @@ sudo ansible-galaxy install -r requirements.yaml
 
 ansible-playbook play_redis.yml -i ${INVENTORY}
 
+ansible-playbook play_rabbitmq.yml -i ${INVENTORY}
+
+ansible-playbook play_postgresql.yml -i ${INVENTORY}
+
 ansible-playbook playbook.yaml -i ${INVENTORY}

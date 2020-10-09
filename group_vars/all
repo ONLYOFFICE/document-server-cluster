@@ -1,11 +1,11 @@
-db_server_host: "{{ groups.database | first }}"
+db_server_host: "{{ groups.haproxy_postgresql | first }}"
 db_server_name: onlyoffice
 db_server_user: onlyoffice
 db_server_pass: onlyoffice
 
 redis_server_host: "{{ groups.haproxy_redis | first }}"
 
-rabbitmq_server_host: "{{ groups.rabbitmq | first }}"
+rabbitmq_server_host: "{{ groups.haproxy_rabbitmq | first }}"
 rabbitmq_server_user: onlyoffice
 rabbitmq_server_pass: onlyoffice
 rabbitmq_server_vpath: /

@@ -4,19 +4,37 @@
 
 [documentserver-example]
 
-[database]
+[zookeeper]
 
-[rabbitmq]
+[zookeeper-quorum:children]
+zookeeper
+
+[database:children]
+zookeeper
+
+[haproxy_postgresql]
+
+[all-postgresql:children]
+zookeeper
+zookeeper-quorum
+database
+haproxy_postgresql
 
 [filestorage]
 
-[all:children]
-loadbalancer
-documentservers
-documentserver-example
-database
+[rabbitmq-master]
+
+[rabbitmq-slave]
+
+[rabbitmq:children]
+rabbitmq-master
+rabbitmq-slave
+
+[haproxy_rabbitmq]
+
+[all-rabbitmq:children]
 rabbitmq
-filestorage
+haproxy_rabbitmq
 
 [redis-master]
 
@@ -35,3 +53,12 @@ redis-master
 redis-slave
 redis-sentinel
 haproxy_redis
+
+[all:children]
+loadbalancer
+documentservers
+documentserver-example
+database
+redis
+rabbitmq-master
+filestorage
