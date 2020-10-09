@@ -4,13 +4,27 @@
 
 [documentserver-example]
 
-[database]
+[zookeeper]
+
+[zookeeper-quorum:children]
+zookeeper
+
+[database:children]
+zookeeper
+
+[haproxy_postgresql]
 
 [redis]
 
 [rabbitmq]
 
 [filestorage]
+
+[all-postgresql:children]
+zookeeper
+zookeeper-quorum
+database
+haproxy_postgresql
 
 [all:children]
 loadbalancer

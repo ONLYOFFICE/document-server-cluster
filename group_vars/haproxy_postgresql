@@ -1,0 +1,47 @@
+---
+haproxy_config_global: |
+
+    maxconn 100
+    log /dev/log local0 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+haproxy_config_defaults: |
+
+    log global
+    mode tcp
+    retries 2
+    timeout connect 4s
+    timeout server 30m
+    timeout client 30m
+    timeout check 5s
+
+haproxy_frontends:
+  - name: postgresql_frontend
+    bind: "*:5432"
+    config: |
+      default_backend             postgresql-backend
+
+  - name: stats
+    bind: "*:7000"
+    config: |
+      mode http
+      use_backend stats
+
+haproxy_backends:
+  - name: stats
+    config: |
+      mode http
+      stats enable
+      stats uri /
+
+  - name: postgresql-backend
+    config: |
+      option httpchk
+      http-check expect status 200
+      default-server inter 3s fall 3 rise 2 on-marked-down shutdown-sessions
+      {% for host in groups['database'] %}
+      server {{ host }} {{ host }}:5432 maxconn 100 check port 8008
+      {% endfor %}

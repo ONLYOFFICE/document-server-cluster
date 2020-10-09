@@ -1,6 +1,49 @@
 # documentserver-cluster
 The ansible tasks for deploy the DocumentServer Cluster
 
+## Requirements on remote hosts
+
+### OS Platforms for zookeeper cluster nodes:
+
+```
+Debian	buster
+Debian	jessie
+Debian	stretch
+EL	7
+Fedora	23
+Fedora	24
+Fedora	25
+Fedora	26
+Fedora	27
+Fedora	28
+Fedora	29
+Fedora	30
+Fedora	31
+Ubuntu	bionic
+Ubuntu	xenial
+```
+
+### OS Platforms for postgresql cluster nodes:
+
+```
+Debian	jessie
+Debian	stretch
+EL	6
+EL	7
+Ubuntu	bionic
+Ubuntu	xenial
+```
+
+### OS Platforms for the Haproxy host:
+
+```
+Debian	buster
+Debian	jessie
+Debian	stretch
+EL	7
+Ubuntu	bionic
+```
+
 ## How to use it
 
 ### Step 1
@@ -43,8 +86,19 @@ documentserver_server_address_2 ansible_user=root
 [documentserver-example]
 example_server_address ansible_user=root
 
-[database]
-database_server_address
+[zookeeper]
+database_server_address_1 zookeeper_myid=0
+database_server_address_2 zookeeper_myid=1
+database_server_address_3 zookeeper_myid=2
+
+[zookeeper-quorum:children]
+zookeeper
+
+[database:children]
+zookeeper
+
+[haproxy_postgresql]
+haproxy_server_address
 
 [redis]
 redis_server_address
@@ -54,6 +108,12 @@ rabbitmq_server_address
 
 [filestorage]
 filestorage_server_address
+
+[all-postgresql:children]
+zookeeper
+zookeeper-quorum
+database
+haproxy_postgresql
 
 [all:children]
 loadbalancer
