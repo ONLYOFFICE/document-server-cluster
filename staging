@@ -14,17 +14,29 @@ zookeeper
 
 [haproxy_postgresql]
 
-[redis]
-
-[rabbitmq]
-
-[filestorage]
-
 [all-postgresql:children]
 zookeeper
 zookeeper-quorum
 database
 haproxy_postgresql
+
+[redis]
+
+[filestorage]
+
+[rabbitmq-master]
+
+[rabbitmq-slave]
+
+[rabbitmq:children]
+rabbitmq-master
+rabbitmq-slave
+
+[haproxy_rabbitmq]
+
+[all-rabbitmq:children]
+rabbitmq
+haproxy_rabbitmq
 
 [all:children]
 loadbalancer
@@ -32,5 +44,5 @@ documentservers
 documentserver-example
 database
 redis
-rabbitmq
+rabbitmq-master
 filestorage

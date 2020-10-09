@@ -1,4 +1,8 @@
-rabbitmq_users:
+---
+rabbitmq_is_master: true
+rabbitmq_plugins_to_enable:
+  - rabbitmq_management
+rabbitmq_users_to_create:
   - user: "{{ rabbitmq_server_user }}"
     password: "{{ rabbitmq_server_pass }}"
     vhost: "{{ rabbitmq_server_vpath }}"
@@ -6,5 +10,3 @@ rabbitmq_users:
     read_priv: .*
     write_priv: .*
     tags: administrator
-
-rabbitmq_users_remove: []
