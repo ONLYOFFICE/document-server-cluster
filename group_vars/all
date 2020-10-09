@@ -1,4 +1,4 @@
-db_server_host: "{{ groups.database | first }}"
+db_server_host: "{{ groups.haproxy_postgresql | first }}"
 db_server_name: onlyoffice
 db_server_user: onlyoffice
 db_server_pass: onlyoffice
