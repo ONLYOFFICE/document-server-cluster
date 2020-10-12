@@ -1,0 +1,84 @@
+---
+haproxy_config_global: |
+
+    log /dev/log local0 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+haproxy_config_defaults: |
+
+    log global
+    retries 3
+    timeout connect 10s
+
+haproxy_frontends:
+  - name: postgresql_frontend
+    bind: "*:5432"
+    config: |
+      mode tcp
+      timeout client 30m
+      default_backend             postgresql-backend
+
+  - name: stats
+    bind: "*:7000"
+    config: |
+      mode http
+      use_backend stats
+
+  - name: rabbit_frontend
+    bind: "*:5672"
+    config: |
+      mode tcp
+      timeout client 3h
+      use_backend             rabbit-backend
+
+  - name: redis_frontend
+    bind: "*:6379"
+    config: |
+      mode tcp
+      timeout client 1m
+      use_backend             redis-backend
+
+haproxy_backends:
+  - name: stats
+    config: |
+      mode http
+      stats enable
+      stats uri /
+
+  - name: postgresql-backend
+    config: |
+      timeout server 30m
+      option httpchk
+      http-check expect status 200
+      default-server inter 3s fall 3 rise 2 on-marked-down shutdown-sessions
+      {% for host in groups['database'] %}
+      server {{ host }} {{ host }}:5432 maxconn 100 check port 8008
+      {% endfor %}
+
+  - name: rabbit-backend
+    config: |
+      timeout server 3h
+      mode tcp
+      option tcplog
+      {% for host in groups['rabbitmq'] %}
+      server {{ host }} {{ host }}:5672 check inter 5s fall 3 rise 2
+      {% endfor %}
+
+  - name: redis-backend
+    config: |
+      timeout server 1m
+      mode tcp
+      option tcplog
+      option tcp-check
+      tcp-check send PING\r\n
+      tcp-check expect string +PONG
+      tcp-check send info\ replication\r\n
+      tcp-check expect string role:master
+      tcp-check send QUIT\r\n
+      tcp-check expect string +OK
+      {% for host in groups['redis'] %}
+      server {{ host }} {{ host }}:6379 check inter 3s
+      {% endfor %}

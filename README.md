@@ -143,14 +143,14 @@ zookeeper
 [database:children]
 zookeeper
 
-[haproxy_postgresql]
+[haproxy_cluster]
 haproxy_server_address
 
 [all-postgresql:children]
 zookeeper
 zookeeper-quorum
 database
-haproxy_postgresql
+haproxy_cluster
 
 [filestorage]
 filestorage_server_address
@@ -166,12 +166,9 @@ rabbitmq_slave_server_address_2
 rabbitmq-master
 rabbitmq-slave
 
-[haproxy_rabbitmq]
-haproxy_server_address
-
 [all-rabbitmq:children]
 rabbitmq
-haproxy_rabbitmq
+haproxy_cluster
 
 [redis-master]
 redis_master_server_address
@@ -189,14 +186,11 @@ redis_sentinel_server_address_1
 redis_sentinel_server_address_2
 redis_sentinel_server_address_3
 
-[haproxy_redis]
-haproxy_server_address
-
 [redis_cluster:children]
 redis-master
 redis-slave
 redis-sentinel
-haproxy
+haproxy_cluster
 
 [all:children]
 loadbalancer

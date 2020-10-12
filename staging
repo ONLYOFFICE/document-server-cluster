@@ -12,13 +12,13 @@ zookeeper
 [database:children]
 zookeeper
 
-[haproxy_postgresql]
+[haproxy_cluster]
 
 [all-postgresql:children]
 zookeeper
 zookeeper-quorum
 database
-haproxy_postgresql
+haproxy_cluster
 
 [filestorage]
 
@@ -30,11 +30,9 @@ haproxy_postgresql
 rabbitmq-master
 rabbitmq-slave
 
-[haproxy_rabbitmq]
-
 [all-rabbitmq:children]
 rabbitmq
-haproxy_rabbitmq
+haproxy_cluster
 
 [redis-master]
 
@@ -46,13 +44,11 @@ redis-slave
 
 [redis-sentinel]
 
-[haproxy_redis]
-
 [redis_cluster:children]
 redis-master
 redis-slave
 redis-sentinel
-haproxy_redis
+haproxy_cluster
 
 [all:children]
 loadbalancer

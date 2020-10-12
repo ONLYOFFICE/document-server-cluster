@@ -17,7 +17,7 @@
   tasks:
   - name: install apt-transport-https
     apt: name=apt-transport-https state=latest
-    when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+    when: ansible_os_family == 'Debian'
   become: yes
 
 - name: configure rabbitmq-master
@@ -38,16 +38,3 @@
   - name: configuring policies
     command: rabbitmqctl set_policy ha-amq ".*" '{"ha-mode":"all","ha-sync-mode":"automatic","ha-promote-on-failure":"when-synced","queue-master-locator":"min-masters"}'
   become: yes
-
-- name: configure haproxy selinux
-  hosts: haproxy_rabbitmq
-  tasks:
-  - name: configuring selinux
-    command: setsebool -P haproxy_connect_any=1
-    when: ansible_os_family == 'RedHat'
-  become: yes
-
-- name: configure haproxy server
-  hosts: haproxy_rabbitmq
-  roles:
-    - { role: wftech.haproxy, become: yes }

@@ -31,7 +31,7 @@
     - { role: kostiantyn-nemchenko.patroni, become: yes }
 
 - name: configure haproxy selinux
-  hosts: haproxy_postgresql
+  hosts: haproxy_cluster
   tasks:
   - name: configuring selinux
     command: setsebool -P haproxy_connect_any=1
@@ -39,6 +39,6 @@
   become: yes
 
 - name: configure haproxy server
-  hosts: haproxy_postgresql
+  hosts: haproxy_cluster
   roles:
     - { role: wftech.haproxy, become: yes }

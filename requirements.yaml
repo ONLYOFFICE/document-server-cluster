@@ -13,8 +13,6 @@
 
 - src: kostiantyn-nemchenko.patroni
 
-- src: wftech.haproxy
-
 - src: https://github.com/agolybev/ansible-role-haproxy.git
   name: geerlingguy.haproxy
 
@@ -25,7 +23,5 @@
 - src: rockandska.erlang
 
 - src: rockandska.rabbitmq
-
-- src: wftech.haproxy
 
 - src: kamaln7.swapfile
