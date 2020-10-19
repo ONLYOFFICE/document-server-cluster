@@ -41,6 +41,13 @@ haproxy_frontends:
       timeout client 1m
       use_backend             redis-backend
 
+  - name: documentserver_frontend
+    bind: "*:80"
+    config: |
+      mode tcp
+      timeout client 3h
+      use_backend             documentserver-backend
+
 haproxy_backends:
   - name: stats
     config: |
@@ -81,4 +88,13 @@ haproxy_backends:
       tcp-check expect string +OK
       {% for host in groups['redis'] %}
       server {{ host }} {{ host }}:6379 check inter 3s
+      {% endfor %}
+
+  - name: documentserver-backend
+    config: |
+      timeout server 5m 
+      option httpchk GET /healthcheck
+      http-check expect string true
+      {% for host in groups['documentservers'] %}
+      server {{host}} {{host}}:80 check inter 5s
       {% endfor %}
