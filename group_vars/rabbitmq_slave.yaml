@@ -1,4 +1,4 @@
 ---
-rabbitmq_slave_of: "{{ groups['rabbitmq-master'][0] }}"
+rabbitmq_slave_of: "{{ groups['rabbitmq_master'][0] }}"
 rabbitmq_plugins_to_enable:
   - rabbitmq_management

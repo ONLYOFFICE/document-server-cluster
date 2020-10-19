@@ -1,0 +1,2 @@
+---
+redis_slaveof: "{{ groups['redis_master'][0] }} 6379"

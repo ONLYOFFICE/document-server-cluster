@@ -13,9 +13,6 @@
 
 - src: kostiantyn-nemchenko.patroni
 
-- src: https://github.com/agolybev/ansible-role-haproxy.git
-  name: geerlingguy.haproxy
-
 - src: geerlingguy.nodejs
 
 - src: geerlingguy.nfs
@@ -24,4 +21,7 @@
 
 - src: rockandska.rabbitmq
 
-- src: kamaln7.swapfile
+- src: geerlingguy.swap
+
+- src: https://github.com/ONLYOFFICE/ansible-role-documentserver.git
+  name: onlyoffice.documentserver

@@ -1,60 +1,60 @@
-[loadbalancer]
-
 [documentservers]
+192.168.3.175 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.177 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
-[documentserver-example]
+[documentserver_example]
 
-[zookeeper]
-
-[zookeeper-quorum:children]
-zookeeper
-
-[database:children]
-zookeeper
-
-[haproxy_cluster]
-
-[all-postgresql:children]
-zookeeper
-zookeeper-quorum
-database
-haproxy_cluster
+[postgresql]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345 zookeeper_myid=0
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345 zookeeper_myid=1
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345 zookeeper_myid=2
 
 [filestorage]
+192.168.3.174 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
-[rabbitmq-master]
+[rabbitmq_master]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
-[rabbitmq-slave]
+[rabbitmq_slave]
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [rabbitmq:children]
-rabbitmq-master
-rabbitmq-slave
+rabbitmq_master
+rabbitmq_slave
 
-[all-rabbitmq:children]
-rabbitmq
-haproxy_cluster
+[redis_master]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
-[redis-master]
-
-[redis-slave]
+[redis_slave]
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [redis:children]
-redis-master
-redis-slave
+redis_master
+redis_slave
 
-[redis-sentinel]
+[redis_sentinel]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
-[redis_cluster:children]
-redis-master
-redis-slave
-redis-sentinel
-haproxy_cluster
+[all_redis:children]
+redis_master
+redis_slave
+redis_sentinel
+
+[haproxy_cluster]
+192.168.3.173 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [all:children]
-loadbalancer
+haproxy_cluster
 documentservers
-documentserver-example
-database
-redis
-rabbitmq-master
+documentserver_example
+postgresql
+all_redis
+rabbitmq
 filestorage
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
