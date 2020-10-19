@@ -1,0 +1,10 @@
+---
+redis_version: 5.0.7
+redis_protected_mode: "no"
+redis_timeout: 300
+redis_logfile: /var/log/redis/redis-server.log
+redis_syslog_enabled: "no"
+redis_sentinel_logfile: /var/log/redis/redis-sentinel.log
+down_after_milliseconds: 3000
+failover_timeout: 6000
+parallel_syncs: 1
