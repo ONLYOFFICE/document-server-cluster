@@ -5,3 +5,22 @@ package_name: onlyoffice-documentserver-ie
 psql: "PGPASSWORD={{ db_server_pass }} psql -q -h{{ db_server_host }} -U{{ db_server_user }} -w -d{{ db_server_name }}"
 createdb_sql: /var/www/onlyoffice/documentserver/server/schema/postgresql/createdb.sql
 cluster_mode: true
+filestorage_mount_path: /var/lib/onlyoffice/documentserver/App_Data/cache/files/
+filestorage_example_mount_path: /var/lib/onlyoffice/documentserver-example/files/
+
+nfs_share_mounts:
+  - path: "{{ filestorage_mount_path }}"
+    location: "{{ filestorage_host }}:{{ filestorage_path }}"
+    state: unmounted
+
+  - path: "{{ filestorage_example_mount_path }}"
+    location: "{{ filestorage_host }}:{{filestorage_path }}"
+    state: unmounted
+
+  - path: "{{ filestorage_mount_path }}"
+    location: "{{ filestorage_host }}:{{ filestorage_path }}"
+    opts: "rw,sync,all_squash"
+
+  - path: "{{ filestorage_example_mount_path }}"
+    location: "{{ filestorage_host }}:{{filestorage_path }}"
+    opts: "rw,sync,all_squash"

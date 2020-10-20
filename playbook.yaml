@@ -129,3 +129,13 @@
         return_content: yes
         validate_certs: no
       register: healthcheck
+
+- name: mount filestorage
+  hosts: documentservers
+  pre_tasks:
+    - name: Wait for service to come up
+      shell: sleep 150s
+
+  roles:
+    - { role: nephelaiio.nfs, become: yes }
+

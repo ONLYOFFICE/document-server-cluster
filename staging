@@ -1,28 +1,43 @@
 [documentservers]
+192.168.3.175 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.177 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [documentserver_example]
 
 [postgresql]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345 zookeeper_myid=0
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345 zookeeper_myid=1
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345 zookeeper_myid=2
 
 [filestorage]
+192.168.3.174 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [rabbitmq_master]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [rabbitmq_slave]
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [rabbitmq:children]
 rabbitmq_master
 rabbitmq_slave
 
 [redis_master]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [redis_slave]
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [redis:children]
 redis_master
 redis_slave
 
 [redis_sentinel]
+192.168.3.170 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.171 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
+192.168.3.172 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [all_redis:children]
 redis_master
@@ -30,6 +45,7 @@ redis_slave
 redis_sentinel
 
 [haproxy_cluster]
+192.168.3.173 ansible_user=ansible ansible_ssh_pass=12345 ansible_sudo_pass=12345
 
 [all:children]
 haproxy_cluster
