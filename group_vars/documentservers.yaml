@@ -1,4 +1,3 @@
-nodejs_version: "8.x"
 rabbitmq_server_url: "amqp://{{ rabbitmq_server_user}}:{{ rabbitmq_server_pass}}@{{ rabbitmq_server_host }}{{ rabbitmq_server_vpath }}"
 
 package_name: onlyoffice-documentserver-ie

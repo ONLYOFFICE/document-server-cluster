@@ -129,9 +129,3 @@
         return_content: yes
         validate_certs: no
       register: healthcheck
-
-- name: install documentserver example
-  hosts: documentserver_example
-  roles:
-    - { role: documentserver-example, become: yes }
-

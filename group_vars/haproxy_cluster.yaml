@@ -92,9 +92,9 @@ haproxy_backends:
 
   - name: documentserver-backend
     config: |
-      timeout server 5m 
+      timeout server 1m 
       option httpchk GET /healthcheck
       http-check expect string true
       {% for host in groups['documentservers'] %}
-      server {{host}} {{host}}:80 check inter 5s
+      server {{host}} {{host}}:80 check inter 5s fall 3 rise 2
       {% endfor %}
