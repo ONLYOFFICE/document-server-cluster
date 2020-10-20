@@ -1,8 +1,0 @@
-haproxy_frontend_name: "default_port_80"
-haproxy_frontend_ssl: "{{ loadbalancer_ssl }}"
-haproxy_frontend_ssl_certificate: "{{ loadbalancer_ssl_certificate }}"
-haproxy_backend_name: "default_service"
-haproxy_backend_httpchk: "GET /healthcheck"
-haproxy_backend_vars:
-  - "http-check expect string true"
-haproxy_backend_servers: "[{% for host in groups.documentservers %}{'name': 'onlyoffice-documentserver-{{ loop.index }}', 'address': '{{ host }}:80' }{%if not loop.last %},{% endif %}{% endfor %}]"

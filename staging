@@ -1,64 +1,44 @@
-[loadbalancer]
-
 [documentservers]
 
-[documentserver-example]
+[documentserver_example]
 
-[zookeeper]
-
-[zookeeper-quorum:children]
-zookeeper
-
-[database:children]
-zookeeper
-
-[haproxy_postgresql]
-
-[all-postgresql:children]
-zookeeper
-zookeeper-quorum
-database
-haproxy_postgresql
+[postgresql]
 
 [filestorage]
 
-[rabbitmq-master]
+[rabbitmq_master]
 
-[rabbitmq-slave]
+[rabbitmq_slave]
 
 [rabbitmq:children]
-rabbitmq-master
-rabbitmq-slave
+rabbitmq_master
+rabbitmq_slave
 
-[haproxy_rabbitmq]
+[redis_master]
 
-[all-rabbitmq:children]
-rabbitmq
-haproxy_rabbitmq
-
-[redis-master]
-
-[redis-slave]
+[redis_slave]
 
 [redis:children]
-redis-master
-redis-slave
+redis_master
+redis_slave
 
-[redis-sentinel]
+[redis_sentinel]
 
-[haproxy_redis]
+[all_redis:children]
+redis_master
+redis_slave
+redis_sentinel
 
-[redis_cluster:children]
-redis-master
-redis-slave
-redis-sentinel
-haproxy_redis
+[haproxy_cluster]
 
 [all:children]
-loadbalancer
+haproxy_cluster
 documentservers
-documentserver-example
-database
-redis
-rabbitmq-master
+documentserver_example
+postgresql
+all_redis
+rabbitmq
 filestorage
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3

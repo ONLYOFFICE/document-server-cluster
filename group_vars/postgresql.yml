@@ -1,3 +1,11 @@
+---
+zookeeper_network:
+  type: group
+  group_name: postgresql
+  quorum_group_name: postgresql
+  use_ips: True
+  iface: "{{ ansible_default_ipv4.interface }}"
+
 patroni_dcs_exists: false
 patroni_dcs: zookeeper
 postgresql_yum_repo_pkg_name: pgdg-redhat-repo-latest.noarch.rpm

@@ -1,24 +1,24 @@
-db_server_host: "{{ groups.haproxy_postgresql | first }}"
+db_server_host: "{{ groups['haproxy_cluster'][0] }}"
 db_server_name: onlyoffice
 db_server_user: onlyoffice
 db_server_pass: onlyoffice
 
-redis_server_host: "{{ groups.haproxy_redis | first }}"
+redis_server_host: "{{ groups['haproxy_cluster'][0] }}"
 
-rabbitmq_server_host: "{{ groups.haproxy_rabbitmq | first }}"
+rabbitmq_server_host: "{{ groups['haproxy_cluster'][0] }}"
 rabbitmq_server_user: onlyoffice
 rabbitmq_server_pass: onlyoffice
 rabbitmq_server_vpath: /
 
-filestorage_host: "{{ groups.filestorage | first }}"
+filestorage_host: "{{ groups['filestorage'][0] }}"
 filestorage_path: "/home/public"
 filestorage_fs: "nfs"
 
-fonts_host: "{{ groups.filestorage | first }}"
+fonts_host: "{{ groups['filestorage'][0] }}"
 fonts_path: "/usr/share/fonts"
 fonts_fs: "nfs"
 
-documentserver_host: "{{ groups.loadbalancer | first }}"
+documentserver_host: "{{ groups['haproxy_cluster'][0] }}"
 documentserver_proto: "http{% if loadbalancer_ssl %}s{% endif %}"
 
 swapfile_size: "{{ ansible_memtotal_mb }}MB"

@@ -1,14 +1,45 @@
 ---
-- hosts: database
+- name: Configure all hosts
+  hosts: all
+  become: yes
+  pre_tasks:
+  - name: Update apt cache.
+    apt: update_cache=yes cache_valid_time=600
+    when: ansible_os_family == 'Debian'
+
+  - name: Update /etc/hosts
+    blockinfile:
+      path: /etc/hosts
+      create: yes
+      block: |
+        {% for host in groups['all'] %}
+        {{ hostvars[host].ansible_default_ipv4.address }}  {{ hostvars[host].ansible_fqdn }}  {{ hostvars[host].ansible_hostname }}
+        {% endfor  %}
 
   roles:
     - { role: geerlingguy.ntp, become: yes }
-    - { role: kamaln7.swapfile, become: yes }
-    - { role: geerlingguy.postgresql, become: yes }
-    - { role: ds-createdb, become: yes }
+    - { role: geerlingguy.swap, become: yes }
 
-- hosts: filestorage
+- name: Configure zookeeper
+  hosts: postgresql
+  roles:
+    - { role: andrewrothstein.zookeeper-cluster, become: yes }
 
+- name: Install postgresql packages
+  hosts: postgresql
+  become: yes
+  tasks:
+  - name: install packages centos-release-scl
+    yum: name=centos-release-scl state=latest
+    when: ansible_os_family == 'RedHat'
+
+- name: Install postgresql-servers
+  hosts: postgresql
+  roles:
+    - { role: kostiantyn-nemchenko.patroni, become: yes }
+
+- name: Configure filestorage
+  hosts: filestorage
   pre_tasks:
   - name: Setup exported path right
     file:
@@ -18,41 +49,83 @@
       group: nogroup
     with_items: "{{ nfs_exports }}"
     become: yes
+    when: ansible_os_family == 'Debian'
 
   roles:
-    - { role: geerlingguy.ntp, become: yes }
-    - { role: kamaln7.swapfile, become: yes }
     - { role: geerlingguy.nfs, become: yes }
-    - { role: documentserver-fonts, become: yes }
 
-- hosts: redis
+- name: Install apt-transport-https for rabbitmq
+  hosts: rabbitmq
+  tasks:
+  - name: install apt-transport-https
+    apt: name=apt-transport-https state=latest
+    when: ansible_os_family == 'Debian'
+  become: yes
+
+- name: Install rabbitmq-master
+  hosts: rabbitmq_master
   roles:
-    - { role: geerlingguy.ntp, become: yes }
-    - { role: kamaln7.swapfile, become: yes }
-    - { role: geerlingguy.redis, become: yes }
+    - { role: rockandska.erlang, become: yes }
+    - { role: rockandska.rabbitmq, become: yes }
 
-- hosts: documentservers
+- name: Install rabbitmq-slave
+  hosts: rabbitmq_slave
   roles:
-    - { role: geerlingguy.ntp, become: yes }
-    - { role: kamaln7.swapfile, become: yes }
-    - { role: geerlingguy.nodejs, become: yes }
-    - { role: documentserver, become: yes }
+    - { role: rockandska.erlang, become: yes }
+    - { role: rockandska.rabbitmq, become: yes }
 
-- hosts: loadbalancer
-  pre_tasks:
-  - name: Copy certificate
-    copy: src="{{ ssl_certificate }}" dest="{{ loadbalancer_ssl_certificate  }}"
-    when: "{{ loadbalancer_ssl }}"
-    become: yes
+- name: Configure rabbitmq cluster policies
+  hosts: rabbitmq_master
+  tasks:
+  - name: configuring policies
+    command: rabbitmqctl set_policy ha-amq ".*" '{"ha-mode":"all","ha-sync-mode":"automatic","ha-promote-on-failure":"when-synced","queue-master-locator":"min-masters"}'
+  become: yes
 
+- name: Configure the master redis server
+  hosts: redis_master
   roles:
-    - { role: geerlingguy.ntp, become: yes }
-    - { role: kamaln7.swapfile, become: yes }
-    - { role: geerlingguy.haproxy, become: yes }
+    - { role: davidwittman.redis, become: yes }
 
-- hosts: documentserver-example
+- name: Configure redis slaves
+  hosts: redis_slave
   roles:
-    - { role: geerlingguy.ntp, become: yes }
-    - { role: kamaln7.swapfile, become: yes }
-    - { role: geerlingguy.nodejs, become: yes }
-    - { role: documentserver-example, become: yes }
+    - { role: davidwittman.redis, become: yes }
+
+- name: configure redis sentinel nodes
+  hosts: redis_sentinel
+  vars:
+    - redis_sentinel_monitors:
+      - name: master01
+        host: "{{ groups['redis_master'][0] }}"
+        port: 6379
+    - redis_sentinel: True
+  roles:
+    - { role: davidwittman.redis, become: yes }
+- name: configure haproxy selinux
+  hosts: haproxy_cluster
+  tasks:
+  - name: configuring selinux
+    command: setsebool -P haproxy_connect_any=1
+    when: ansible_os_family == 'RedHat'
+  become: yes
+
+- name: configure haproxy server
+  hosts: haproxy_cluster
+  roles:
+    - { role: wftech.haproxy, become: yes }
+
+- name: install documentserver
+  hosts: documentservers
+  roles:
+    - { role: onlyoffice.documentserver, become: yes }
+
+  post_tasks:
+    - name: Wait for service come up
+      shell: sleep 10s
+
+    - name: Get health check status
+      uri:
+        url: http://localhost/healthcheck/
+        return_content: yes
+        validate_certs: no
+      register: healthcheck
