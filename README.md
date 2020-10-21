@@ -122,83 +122,59 @@ cd document-server-cluster
 
 #### Example of staging file:
 ```
-[loadbalancer]
-loadbalancer_server_address
-
 [documentservers]
 documentserver_server_address_1 ansible_user=root
 documentserver_server_address_2 ansible_user=root
 
-[documentserver-example]
-example_server_address ansible_user=root
-
-[zookeeper]
+[postgresql]
 database_server_address_1 zookeeper_myid=0
 database_server_address_2 zookeeper_myid=1
 database_server_address_3 zookeeper_myid=2
 
-[zookeeper-quorum:children]
-zookeeper
-
-[database:children]
-zookeeper
-
-[haproxy_cluster]
-haproxy_server_address
-
-[all-postgresql:children]
-zookeeper
-zookeeper-quorum
-database
-haproxy_cluster
-
 [filestorage]
 filestorage_server_address
 
-[rabbitmq-master]
+[rabbitmq_master]
 rabbitmq_master_server_address
 
-[rabbitmq-slave]
+[rabbitmq_slave]
 rabbitmq_slave_server_address_1
 rabbitmq_slave_server_address_2
 
 [rabbitmq:children]
-rabbitmq-master
-rabbitmq-slave
+rabbitmq_master
+rabbitmq_slave
 
-[all-rabbitmq:children]
-rabbitmq
-haproxy_cluster
-
-[redis-master]
+[redis_master]
 redis_master_server_address
 
-[redis-slave]
+[redis_slave]
 redis_slave_server_address_1
 redis_slave_server_address_2
 
 [redis:children]
-redis-master
-redis-slave
+redis_master
+redis_slave
 
-[redis-sentinel]
+[redis_sentinel]
 redis_sentinel_server_address_1
 redis_sentinel_server_address_2
 redis_sentinel_server_address_3
 
 [redis_cluster:children]
-redis-master
-redis-slave
-redis-sentinel
-haproxy_cluster
+redis_master
+redis_slave
+redis_sentinel
+
+[haproxy_cluster]
+haproxy_server_address
 
 [all:children]
-loadbalancer
+haproxy_cluster
 documentservers
-documentserver-example
-database
-redis
-rabbitmq-master
+postgresql
+all_redis
+rabbitmq
 filestorage
 ```
 
