@@ -137,5 +137,5 @@
       shell: sleep 150s
 
   roles:
-    - { role: nephelaiio.nfs, become: yes }
+    - { role: ome.nfs_mount, become: yes }
 
