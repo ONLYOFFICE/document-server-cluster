@@ -25,3 +25,5 @@
 
 - src: https://github.com/ONLYOFFICE/ansible-role-documentserver.git
   name: onlyoffice.documentserver
+
+- src: ome.nfs_mount
