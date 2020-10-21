@@ -1,2 +1,0 @@
-ds_schema: "{{ ansible_env.HOME }}/createdb.sql"
-psql: "PGPASSWORD={{ db_server_pass }} psql -q -hlocalhost -U{{ db_server_user }} -f {{ ds_schema }}"
