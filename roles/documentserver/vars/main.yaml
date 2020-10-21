@@ -1,9 +1,0 @@
-onlyoffice_repo_file: "onlyoffice"
-package_name: onlyoffice-documentserver-ie
-package_repo: "deb http://download.onlyoffice.com/repo/debian squeeze main"
-
-filestorage_mount_path: /var/lib/onlyoffice/documentserver/App_Data/cache/files
-fonts_mount_path: /usr/share/fonts
-
-psql: "PGPASSWORD={{ db_server_pass }} psql -q -h{{ db_server_host }} -U{{ db_server_user }} -w -d{{ db_server_name }}"
-createdb_sql: /var/www/onlyoffice/documentserver/server/schema/postgresql/createdb.sql

@@ -1,2 +1,0 @@
-nodejs_version: "8.x"
-documentserver_url: "{{ documentserver_proto }}://{{ documentserver_host }}/"

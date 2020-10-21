@@ -1,7 +1,5 @@
 [documentservers]
 
-[documentserver_example]
-
 [postgresql]
 
 [filestorage]
@@ -34,11 +32,7 @@ redis_sentinel
 [all:children]
 haproxy_cluster
 documentservers
-documentserver_example
 postgresql
 all_redis
 rabbitmq
 filestorage
-
-[all:vars]
-ansible_python_interpreter=/usr/bin/python3
