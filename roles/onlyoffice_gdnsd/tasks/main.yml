@@ -1,0 +1,51 @@
+---
+
+- name: Сhecking systemd-resolv
+  command: "netstat -natp | grep systemd-resolv"
+  register: check_53
+
+- name: Stopping systemd-resolved
+  service: name=systemd-resolved state=stopped enabled=no
+  when: "'systemd-resolv' in check_53.stdout"
+
+- name: Copying /etc/resolv.conf
+  command: "{{ item }}"
+  with_items:
+    - cp /etc/resolv.conf /tmp/
+    - rm -f /etc/resolv.conf
+    - cp /tmp/resolv.conf /etc/
+    - rm -f /tmp/resolv.conf
+  when: "'systemd-resolv' in check_53.stdout"
+
+- name: Update /etc/resolv.conf
+  lineinfile: dest=/etc/resolv.conf
+              insertbefore=BOF
+              line='nameserver 8.8.8.8'
+  when: "'systemd-resolv' in check_53.stdout"
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Creating a config
+  template: src=config.j2 dest=/etc/gdnsd/config
+
+- name: Creating a zone
+  template: src=zone.j2 dest=/etc/gdnsd/zones/{{ domain_name }}
+  notify:
+    - Restart GDNSD
+
+- name: editing /etc/resolv.conf
+  lineinfile: dest=/etc/resolv.conf
+              insertbefore=BOF
+              line='nameserver 127.0.0.1\n{% for host in groups['documentservers'] %}nameserver {{ hostvars[host].ansible_default_ipv4.address }}\n{% endfor %}'
+
+- name: deleting {{ ansible_default_ipv4.address }} in /etc/resolv.conf
+  lineinfile: dest=/etc/resolv.conf
+              regexp="{{item.reg}}"
+              state="{{item.state}}"
+  with_items:
+  - { reg: '{{ ansible_default_ipv4.address }}', state: 'absent'}
+  - { reg: '8.8.8.8', state: 'absent'}
+
+- name: adding nameserver 8.8.8.8 /etc/resolv.conf
+  shell: sed -i '3inameserver 8.8.8.8' /etc/resolv.conf

@@ -1,0 +1,4 @@
+---
+domain_name: test.local
+gdnsd_network:
+  iface: "{{ ansible_default_ipv4.interface }}"

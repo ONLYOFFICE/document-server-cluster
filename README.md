@@ -161,7 +161,7 @@ redis_sentinel_server_address_1
 redis_sentinel_server_address_2
 redis_sentinel_server_address_3
 
-[redis_cluster:children]
+[all_redis:children]
 redis_master
 redis_slave
 redis_sentinel

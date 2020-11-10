@@ -1,0 +1,3 @@
+---
+- name: Restart GDNSD
+  service: name=gdnsd state=restarted enabled=yes
