@@ -37,7 +37,7 @@
 - name: editing /etc/resolv.conf
   lineinfile: dest=/etc/resolv.conf
               insertbefore=BOF
-              line='nameserver 127.0.0.1\n{% for host in groups['documentservers'] %}nameserver {{ hostvars[host].ansible_default_ipv4.address }}\n{% endfor %}'
+              line='nameserver 127.0.0.1\n{% for host in groups['documentservers'] %}{% if hostvars[host].ansible_os_family == 'Debian' %}nameserver {{ hostvars[host].ansible_default_ipv4.address }}\n{% endif %}{% endfor %}'
 
 - name: deleting {{ ansible_default_ipv4.address }} in /etc/resolv.conf
   lineinfile: dest=/etc/resolv.conf

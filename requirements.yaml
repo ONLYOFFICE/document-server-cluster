@@ -25,6 +25,3 @@
   name: onlyoffice.documentserver
 
 - src: ome.nfs_mount
-
-- src: https://github.com/ONLYOFFICE/document-server-cluster/roles/onlyoffice_gdnsd.git
-  name: onlyoffice_gdnsd
