@@ -115,7 +115,7 @@
   hosts: documentservers
 
   roles:
-    - { role: onlyoffice_gdnsd, when: ansible_os_family == 'Debian', become: yes }
+    - { role: gdnsd, when: ansible_os_family == 'Debian', become: yes }
 
 - name: Install documentserver
   hosts: documentservers
