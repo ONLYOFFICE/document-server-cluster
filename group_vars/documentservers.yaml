@@ -30,5 +30,6 @@ nfs_share_mounts:
     opts: rw
 
 domain_name: ds.local
+dns_ip: 8.8.8.8
 gdnsd_network:
   iface: "{{ ansible_default_ipv4.interface }}"

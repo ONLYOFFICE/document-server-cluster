@@ -20,7 +20,7 @@
 - name: Update /etc/resolv.conf
   lineinfile: dest=/etc/resolv.conf
               insertbefore=BOF
-              line='nameserver 8.8.8.8'
+              line='nameserver {{ dns_ip }}'
   when: "'systemd-resolv' in check_53.stdout"
 
 - include_tasks: setup-Debian.yml
@@ -45,7 +45,7 @@
               state="{{item.state}}"
   with_items:
   - { reg: '{{ ansible_default_ipv4.address }}', state: 'absent'}
-  - { reg: '8.8.8.8', state: 'absent'}
+  - { reg: '{{ dns_ip }}', state: 'absent'}
 
-- name: adding nameserver 8.8.8.8 /etc/resolv.conf
-  shell: sed -i '3inameserver 8.8.8.8' /etc/resolv.conf
+- name: adding nameserver {{ dns_ip }} /etc/resolv.conf
+  shell: sed -i '3inameserver {{ dns_ip }}' /etc/resolv.conf
