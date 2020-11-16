@@ -1,11 +1,13 @@
-db_server_host: "{{ groups['haproxy_cluster'][0] }}"
+db_server_host: "{% if ansible_os_family == 'Debian' %}{{domain_name}}{% else %}{{groups['haproxy_cluster'][0]}}{% endif %}"
+
 db_server_name: onlyoffice
 db_server_user: onlyoffice
 db_server_pass: onlyoffice
 
-redis_server_host: "{{ groups['haproxy_cluster'][0] }}"
+redis_server_host: "{% if ansible_os_family == 'Debian' %}{{domain_name}}{% else %}{{groups['haproxy_cluster'][0]}}{% endif %}"
 
-rabbitmq_server_host: "{{ groups['haproxy_cluster'][0] }}"
+rabbitmq_server_host: "{% if ansible_os_family == 'Debian' %}{{domain_name}}{% else %}{{groups['haproxy_cluster'][0]}}{% endif %}"
+
 rabbitmq_server_user: onlyoffice
 rabbitmq_server_pass: onlyoffice
 rabbitmq_server_vpath: /
@@ -18,7 +20,8 @@ fonts_host: "{{ groups['filestorage'][0] }}"
 fonts_path: "/usr/share/fonts"
 fonts_fs: "nfs"
 
-documentserver_host: "{{ groups['haproxy_cluster'][0] }}"
+documentserver_host: "{% if ansible_os_family == 'Debian' %}{{domain_name}}{% else %}{{groups['haproxy_cluster'][0]}}{% endif %}"
+
 documentserver_proto: "http{% if loadbalancer_ssl %}s{% endif %}"
 
 swapfile_size: "{{ ansible_memtotal_mb }}MB"

@@ -5,11 +5,9 @@
   
 - src: wftech.haproxy
 
-- src: https://github.com/andrewrothstein/ansible-zookeeper
-  name: andrewrothstein.zookeeper
+- src: andrewrothstein.zookeeper
 
-- src: https://github.com/ONLYOFFICE/ansible-zookeeper-cluster
-  name: andrewrothstein.zookeeper-cluster
+- src: andrewrothstein.zookeeper-cluster
 
 - src: kostiantyn-nemchenko.patroni
 

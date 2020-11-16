@@ -20,21 +20,19 @@
     - { role: geerlingguy.ntp, become: yes }
     - { role: geerlingguy.swap, become: yes }
 
-- name: Configure zookeeper
+- name: Install zookeeper-cluster
   hosts: postgresql
   roles:
     - { role: andrewrothstein.zookeeper-cluster, become: yes }
 
-- name: Install postgresql packages
+- name: Install postgresql-cluster
   hosts: postgresql
   become: yes
-  tasks:
+  pre_tasks:
   - name: install packages centos-release-scl
     yum: name=centos-release-scl state=latest
     when: ansible_os_family == 'RedHat'
 
-- name: Install postgresql-servers
-  hosts: postgresql
   roles:
     - { role: kostiantyn-nemchenko.patroni, become: yes }
 
@@ -91,7 +89,7 @@
   roles:
     - { role: davidwittman.redis, become: yes }
 
-- name: configure redis sentinel nodes
+- name: Configure redis sentinel nodes
   hosts: redis_sentinel
   vars:
     - redis_sentinel_monitors:
@@ -101,20 +99,25 @@
     - redis_sentinel: True
   roles:
     - { role: davidwittman.redis, become: yes }
-- name: configure haproxy selinux
+
+- name: Install haproxy
   hosts: haproxy_cluster
-  tasks:
+  pre_tasks:
   - name: configuring selinux
     command: setsebool -P haproxy_connect_any=1
     when: ansible_os_family == 'RedHat'
-  become: yes
+    become: yes
 
-- name: configure haproxy server
-  hosts: haproxy_cluster
   roles:
     - { role: wftech.haproxy, become: yes }
 
-- name: install documentserver
+- name: Configure GDNSD Server
+  hosts: documentservers
+
+  roles:
+    - { role: gdnsd, when: ansible_os_family == 'Debian', become: yes }
+
+- name: Install documentserver
   hosts: documentservers
   roles:
     - { role: onlyoffice.documentserver, become: yes }
@@ -130,7 +133,7 @@
         validate_certs: no
       register: healthcheck
 
-- name: mount filestorage
+- name: Mount filestorage
   hosts: documentservers
   pre_tasks:
     - name: Wait for service to come up
