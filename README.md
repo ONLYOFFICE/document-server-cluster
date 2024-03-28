@@ -109,7 +109,7 @@ cd document-server-cluster
 
 ### Step 3
 
-#### Configure your cluster, in the ```staging``` file,  put under each ```[section]``` except ```[all:children]``` the address for servrer which will be used for appropriated role in the next format:
+#### Configure your cluster, in the ```inventory.ini``` file,  put under each ```[section]``` except ```[all:children]``` the address for servrer which will be used for appropriated role in the next format:
 ```
 <server_address> [ansible_user=<user_name>] [ansible_ssh_pass=<user_password>]
 ```
@@ -120,7 +120,7 @@ cd document-server-cluster
 
 #### Note 3: See the [Managed Node Requirements](https://docs.ansible.com/ansible/intro_installation.html#managed-node-requirements) to the details of initial setup DocumentServer Cluster nodes.
 
-#### Example of staging file:
+#### Example of inventory.ini file:
 ```
 [documentservers]
 documentserver_server_address_1 ansible_user=root
