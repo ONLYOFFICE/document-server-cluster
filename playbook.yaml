@@ -1,143 +1,164 @@
 ---
 - name: Configure all hosts
   hosts: all
-  become: yes
+  become: true
   pre_tasks:
-  - name: Update apt cache.
-    apt: update_cache=yes cache_valid_time=600
-    when: ansible_os_family == 'Debian'
+    - name: Update apt cache.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
 
-  - name: Update /etc/hosts
-    blockinfile:
-      path: /etc/hosts
-      create: yes
-      block: |
-        {% for host in groups['all'] %}
-        {{ hostvars[host].ansible_default_ipv4.address }}  {{ hostvars[host].ansible_fqdn }}  {{ hostvars[host].ansible_hostname }}
-        {% endfor  %}
+    - name: Update /etc/hosts
+      ansible.builtin.blockinfile:
+        path: /etc/hosts
+        create: true
+        block: |
+          {% for host in groups['all'] %}
+          {{ hostvars[host].ansible_default_ipv4.address }}  {{ hostvars[host].ansible_fqdn }}  {{ hostvars[host].ansible_hostname }}
+          {% endfor  %}
+        mode: '0644'
 
   roles:
-    - { role: geerlingguy.ntp, become: yes }
-    - { role: geerlingguy.swap, become: yes }
+    - { role: geerlingguy.ntp, become: true }
+    - { role: geerlingguy.swap, become: true }
 
 - name: Install zookeeper-cluster
   hosts: postgresql
   roles:
-    - { role: andrewrothstein.zookeeper-cluster, become: yes }
+    - { role: andrewrothstein.zookeeper-cluster, become: true }
 
 - name: Install postgresql-cluster
   hosts: postgresql
-  become: yes
+  become: true
   pre_tasks:
-  - name: install packages centos-release-scl
-    yum: name=centos-release-scl state=latest
-    when: ansible_os_family == 'RedHat'
+    - name: Install packages centos-release-scl
+      ansible.builtin.yum:
+        name: centos-release-scl
+        state: present
+      when: ansible_os_family == 'RedHat'
 
   roles:
-    - { role: kostiantyn-nemchenko.patroni, become: yes }
+    - { role: kostiantyn-nemchenko.patroni, become: true }
 
 - name: Configure filestorage
   hosts: filestorage
   pre_tasks:
-  - name: Setup exported path right
-    file:
-      path: "{{ item.strip().split()[0] }}"
-      state: directory
-      owner: nobody
-      group: nogroup
-    with_items: "{{ nfs_exports }}"
-    become: yes
-    when: ansible_os_family == 'Debian'
+    - name: Setup exported path right
+      ansible.builtin.file:
+        path: "{{ item.strip().split()[0] }}"
+        state: directory
+        owner: nobody
+        group: nogroup
+        mode: '0777'
+      with_items: "{{ nfs_exports }}"
+      become: true
+      when: ansible_os_family == 'Debian'
 
   roles:
-    - { role: geerlingguy.nfs, become: yes }
+    - { role: geerlingguy.nfs, become: true }
 
 - name: Install apt-transport-https for rabbitmq
   hosts: rabbitmq
   tasks:
-  - name: install apt-transport-https
-    apt: name=apt-transport-https state=latest
-    when: ansible_os_family == 'Debian'
-  become: yes
+    - name: Install apt-transport-https
+      ansible.builtin.apt:
+        name: apt-transport-https
+        state: present
+      when: ansible_os_family == 'Debian'
+      become: true
 
 - name: Install rabbitmq-master
   hosts: rabbitmq_master
   roles:
-    - { role: rockandska.erlang, become: yes }
-    - { role: rockandska.rabbitmq, become: yes }
+    - { role: rockandska.erlang, become: true }
+    - { role: rockandska.rabbitmq, become: true }
 
 - name: Install rabbitmq-slave
   hosts: rabbitmq_slave
   roles:
-    - { role: rockandska.erlang, become: yes }
-    - { role: rockandska.rabbitmq, become: yes }
+    - { role: rockandska.erlang, become: true }
+    - { role: rockandska.rabbitmq, become: true }
 
 - name: Configure rabbitmq cluster policies
   hosts: rabbitmq_master
   tasks:
-  - name: configuring policies
-    command: rabbitmqctl set_policy ha-amq ".*" '{"ha-mode":"all","ha-sync-mode":"automatic","ha-promote-on-failure":"when-synced","queue-master-locator":"min-masters"}'
-  become: yes
+    - name: Configuring rabbitmq cluster policies
+      community.rabbitmq.rabbitmq_policy:
+        name: ha-amq
+        pattern: .*
+        state: present
+        tags:
+          ha-mode: all
+          ha-sync-mode: automatic
+          ha-promote-on-failure: when-synced
+          queue-master-locator: min-masters
+      become: true
 
 - name: Configure the master redis server
   hosts: redis_master
   roles:
-    - { role: davidwittman.redis, become: yes }
+    - { role: davidwittman.redis, become: true }
 
 - name: Configure redis slaves
   hosts: redis_slave
   roles:
-    - { role: davidwittman.redis, become: yes }
+    - { role: davidwittman.redis, become: true }
 
 - name: Configure redis sentinel nodes
   hosts: redis_sentinel
   vars:
-    - redis_sentinel_monitors:
+    redis_sentinel_monitors:
       - name: master01
         host: "{{ groups['redis_master'][0] }}"
         port: 6379
-    - redis_sentinel: True
+    redis_sentinel: true
   roles:
-    - { role: davidwittman.redis, become: yes }
+    - { role: davidwittman.redis, become: true }
 
 - name: Install haproxy
   hosts: haproxy_cluster
   pre_tasks:
-  - name: configuring selinux
-    command: setsebool -P haproxy_connect_any=1
-    when: ansible_os_family == 'RedHat'
-    become: yes
+    - name: Configuring selinux
+      ansible.posix.seboolean:
+        name: haproxy_connect_any
+        state: true
+        persistent: true
+      when: ansible_os_family == 'RedHat'
+      become: true
 
   roles:
-    - { role: wftech.haproxy, become: yes }
+    - { role: wftech.haproxy, become: true }
 
 - name: Configure GDNSD Server
   hosts: documentservers
 
   roles:
-    - { role: gdnsd, when: ansible_os_family == 'Debian', become: yes }
+    - { role: gdnsd, when: ansible_os_family == 'Debian', become: true }
 
 - name: Install documentserver
   hosts: documentservers
   roles:
-    - { role: onlyoffice.documentserver, become: yes }
+    - { role: onlyoffice.documentserver, become: true }
 
   post_tasks:
     - name: Wait for service come up
-      shell: sleep 10s
+      ansible.builtin.pause:
+        seconds: 10
 
     - name: Get health check status
-      uri:
+      ansible.builtin.uri:
         url: http://localhost/healthcheck/
-        return_content: yes
-        validate_certs: no
+        return_content: true
+        validate_certs: false
       register: healthcheck
 
 - name: Mount filestorage
   hosts: documentservers
   pre_tasks:
     - name: Wait for service to come up
-      shell: sleep 120s
+      ansible.builtin.pause:
+        seconds: 120
 
   roles:
-    - { role: ome.nfs_mount, become: yes }
+    - { role: ome.nfs_mount, become: true }
