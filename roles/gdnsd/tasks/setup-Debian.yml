@@ -1,8 +1,8 @@
 ---
 - name: Installing GDNSD Debian
-  apt:
+  ansible.builtin.apt:
     name:
       - gdnsd
       - gdnsd-dev
     state: present
-    update_cache: yes
+    update_cache: true

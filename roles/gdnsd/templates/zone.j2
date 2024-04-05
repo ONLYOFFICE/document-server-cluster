@@ -1,4 +1,4 @@
-{{ domain_name }}.     SOA ns1 hostmaster (
+{{ gdnsd_domain_name }}.     SOA ns1 hostmaster (
               1      ; serial
               7200   ; refresh
               30M    ; retry
@@ -6,9 +6,9 @@
               900    ; ncache
 )
 
-@           NS      ns1.{{ domain_name }}.
+@           NS      ns1.{{ gdnsd_domain_name }}.
 
 ns1         A       {{ ansible_default_ipv4.address }} ; a comment
 @   15      DYNA    multifo!webapp
 localhost   A       127.0.0.1
-www         CNAME   {{ domain_name }}.
+www         CNAME   {{ gdnsd_domain_name }}.
