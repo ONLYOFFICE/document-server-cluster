@@ -1,16 +1,16 @@
 ---
-- name: Сhecking systemd-resolv
+- name: Сheck systemd-resolv
   ansible.builtin.command: "netstat -natp | grep systemd-resolv"
   register: check_53
 
-- name: Stopping systemd-resolved
+- name: Stop systemd-resolved
   ansible.builtin.service:
     name: systemd-resolved
     state: stopped
     enabled: false
   when: "'systemd-resolv' in check_53.stdout"
 
-- name: Copying /etc/resolv.conf
+- name: Copy /etc/resolv.conf
   ansible.builtin.command: "{{ item }}"
   with_items:
     - cp /etc/resolv.conf /tmp/
@@ -30,13 +30,13 @@
   ansible.builtin.include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- name: Creating a config
+- name: Create a config
   ansible.builtin.template:
     src: config.j2
     dest: /etc/gdnsd/config
     mode: '0644'
 
-- name: Creating a zone
+- name: Create a zone
   ansible.builtin.template:
     src: zone.j2
     dest: /etc/gdnsd/zones/{{ gdnsd_domain_name }}

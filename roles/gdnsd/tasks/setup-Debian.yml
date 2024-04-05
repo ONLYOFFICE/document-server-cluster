@@ -1,5 +1,5 @@
 ---
-- name: Installing GDNSD Debian
+- name: Install GDNSD on Debian
   ansible.builtin.apt:
     name:
       - gdnsd
