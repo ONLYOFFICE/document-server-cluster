@@ -18,7 +18,6 @@
           {{ hostvars[host].ansible_default_ipv4.address }}  {{ hostvars[host].ansible_fqdn }}  {{ hostvars[host].ansible_hostname }}
           {% endfor  %}
         mode: '0644'
-
   roles:
     - { role: geerlingguy.ntp, become: true }
     - { role: geerlingguy.swap, become: true }
@@ -37,7 +36,6 @@
         name: centos-release-scl
         state: present
       when: ansible_os_family == 'RedHat'
-
   roles:
     - { role: kostiantyn-nemchenko.patroni, become: true }
 
@@ -54,7 +52,6 @@
       with_items: "{{ nfs_exports }}"
       become: true
       when: ansible_os_family == 'Debian'
-
   roles:
     - { role: geerlingguy.nfs, become: true }
 
@@ -126,21 +123,22 @@
         persistent: true
       when: ansible_os_family == 'RedHat'
       become: true
-
   roles:
     - { role: wftech.haproxy, become: true }
 
 - name: Configure GDNSD Server
   hosts: documentservers
-
+  pre_tasks:
+    - name: Install net-tools
+      ansible.builtin.apt:
+        name: net-tools
+        state: present
+      when: ansible_os_family == 'Debian'
   roles:
     - { role: gdnsd, when: ansible_os_family == 'Debian', become: true }
 
 - name: Install documentserver
   hosts: documentservers
-  roles:
-    - { role: onlyoffice.documentserver, become: true }
-
   post_tasks:
     - name: Wait for service come up
       ansible.builtin.pause:
@@ -152,6 +150,8 @@
         return_content: true
         validate_certs: false
       register: healthcheck
+  roles:
+    - { role: onlyoffice.documentserver, become: true }
 
 - name: Mount filestorage
   hosts: documentservers
@@ -159,6 +159,5 @@
     - name: Wait for service to come up
       ansible.builtin.pause:
         seconds: 120
-
   roles:
     - { role: ome.nfs_mount, become: true }
