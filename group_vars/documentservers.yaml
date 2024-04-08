@@ -28,7 +28,7 @@ nfs_share_mounts:
     location: "{{ filestorage_host }}:{{ filestorage_path }}"
     opts: rw
 
-domain_name: ds.local
-dns_ip: 8.8.8.8
+gdnsd_domain_name: ds.local
+gdnsd_dns_ip: 8.8.8.8
 gdnsd_network:
   iface: "{{ ansible_default_ipv4.interface }}"
