@@ -1,4 +1,4 @@
-rabbitmq_server_url: "amqp://{{ rabbitmq_server_user}}:{{ rabbitmq_server_pass}}@{{ rabbitmq_server_host }}{{ rabbitmq_server_vpath }}"
+rabbitmq_server_url: "amqp://{{ rabbitmq_server_user }}:{{ rabbitmq_server_pass }}@{{ rabbitmq_server_host }}{{ rabbitmq_server_vpath }}"
 
 package_name: onlyoffice-documentserver
 
@@ -17,7 +17,7 @@ nfs_share_mounts:
     state: unmounted
 
   - path: "{{ filestorage_example_mount_path }}"
-    location: "{{ filestorage_host }}:{{filestorage_path }}"
+    location: "{{ filestorage_host }}:{{ filestorage_path }}"
     state: unmounted
 
   - path: "{{ filestorage_mount_path }}"

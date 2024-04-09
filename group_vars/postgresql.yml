@@ -3,7 +3,7 @@ zookeeper_network:
   type: group
   group_name: postgresql
   quorum_group_name: postgresql
-  use_ips: True
+  use_ips: true
   iface: "{{ ansible_default_ipv4.interface }}"
 
 patroni_dcs_exists: false
@@ -14,5 +14,5 @@ patroni_replication_password: qwerty12345
 patroni_superuser_username: "{{ db_server_user }}"
 patroni_superuser_password: "{{ db_server_pass }}"
 patroni_bootstrap_pg_hba:
-  - { type: "host", database: "all",         user: "all",                                address: "0.0.0.0/0", method: "md5" }
-  - { type: "host", database: "replication", user: "{{ patroni_replication_username }}", address: "0.0.0.0/0", method: "md5" }
+  - { type: "host", database: "all",          user: "all",                                address: "0.0.0.0/0", method: "md5" }
+  - { type: "host", database: "replication",  user: "{{ patroni_replication_username }}", address: "0.0.0.0/0", method: "md5" }
