@@ -3,42 +3,42 @@ collections:
   - name: community.general
 
   - name: ansible.posix
-  
+
   - name: community.rabbitmq
 
 roles:
-- src: geerlingguy.ntp
+  - src: geerlingguy.ntp
 
-- src: https://github.com/DavidWittman/ansible-redis
-  name: davidwittman.redis
+  - src: https://github.com/DavidWittman/ansible-redis
+    name: davidwittman.redis
 
-- src: wftech.haproxy
+  - src: wftech.haproxy
 
-- src: andrewrothstein.bash
+  - src: andrewrothstein.bash
 
-- src: andrewrothstein.temurin
+  - src: andrewrothstein.temurin
 
-- src: andrewrothstein.unarchivedeps
+  - src: andrewrothstein.unarchivedeps
 
-- src: andrewrothstein.unarchive-deps
+  - src: andrewrothstein.unarchive-deps
 
-- src: andrewrothstein.zookeeper
+  - src: andrewrothstein.zookeeper
 
-- src: andrewrothstein.zookeeper-cluster
+  - src: andrewrothstein.zookeeper-cluster
 
-- src: kostiantyn-nemchenko.patroni
+  - src: kostiantyn-nemchenko.patroni
 
-- src: geerlingguy.nodejs
+  - src: geerlingguy.nodejs
 
-- src: geerlingguy.nfs
+  - src: geerlingguy.nfs
 
-- src: rockandska.erlang
+  - src: rockandska.erlang
 
-- src: rockandska.rabbitmq
+  - src: rockandska.rabbitmq
 
-- src: geerlingguy.swap
+  - src: geerlingguy.swap
 
-- src: https://github.com/ONLYOFFICE/ansible-role-documentserver.git
-  name: onlyoffice.documentserver
+  - src: https://github.com/ONLYOFFICE/ansible-role-documentserver.git
+    name: onlyoffice.documentserver
 
-- src: ome.nfs_mount
+  - src: ome.nfs_mount
