@@ -56,7 +56,7 @@
       {% endif %}
       {% endfor %}
 
-- name: Delete {{ ansible_default_ipv4.address }} in /etc/resolv.conf
+- name: Delete {{ ansible_default_ipv4.address }} from /etc/resolv.conf
   ansible.builtin.lineinfile:
     dest: /etc/resolv.conf
     regexp: "{{ item.reg }}"
@@ -65,7 +65,7 @@
     - { reg: "{{ ansible_default_ipv4.address }}", state: "absent" }
     - { reg: "{{ gdnsd_dns_ip }}", state: "absent" }
 
-- name: Add nameserver {{ gdnsd_dns_ip }} /etc/resolv.conf
+- name: Add nameserver {{ gdnsd_dns_ip }} to /etc/resolv.conf
   ansible.builtin.lineinfile:
     path: /etc/resolv.conf
     insertafter: '^nameserver'
