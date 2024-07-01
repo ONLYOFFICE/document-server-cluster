@@ -1,4 +1,5 @@
 ---
+redis_version: 7.2.5
 redis_install_from_source: false
 redis_protected_mode: "no"
 redis_timeout: 300
