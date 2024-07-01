@@ -26,7 +26,8 @@ roles:
 
   - src: andrewrothstein.zookeeper-cluster
 
-  - src: kostiantyn-nemchenko.patroni
+  - src: https://github.com/kostiantyn-nemchenko/ansible-role-patroni.git
+    name: kostiantyn-nemchenko.patroni
 
   - src: geerlingguy.nodejs
 
