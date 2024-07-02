@@ -94,7 +94,7 @@ Ubuntu	bionic
 
 ### Step 1
 
-#### Install the 2.15 Ansible version. Please see the [Installation Guide](https://docs.ansible.com/ansible/latest/installation_guide/) on Ansible website to learn how to install required version.
+#### Install the 2.13 Ansible version. Please see the [Installation Guide](https://docs.ansible.com/ansible/latest/installation_guide/) on Ansible website to learn how to install required version.
 
 ### Step 2
 
