@@ -3,6 +3,5 @@
   ansible.builtin.apt:
     name:
       - gdnsd
-      - gdnsd-dev
     state: present
     update_cache: true
