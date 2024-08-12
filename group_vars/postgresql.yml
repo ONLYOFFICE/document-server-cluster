@@ -6,6 +6,7 @@ zookeeper_network:
   use_ips: true
   iface: "{{ ansible_default_ipv4.interface }}"
 
+patroni_postgresql_version: 16
 patroni_dcs_exists: false
 patroni_dcs: zookeeper
 postgresql_yum_repo_pkg_name: pgdg-redhat-repo-latest.noarch.rpm
