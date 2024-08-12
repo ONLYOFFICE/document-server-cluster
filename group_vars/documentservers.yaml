@@ -14,16 +14,10 @@ filestorage_example_mount_path: /var/lib/onlyoffice/documentserver-example/files
 nfs_share_mounts:
   - path: "{{ filestorage_mount_path }}"
     location: "{{ filestorage_host }}:{{ filestorage_path }}"
-    state: unmounted
-
-  - path: "{{ filestorage_example_mount_path }}"
-    location: "{{ filestorage_host }}:{{ filestorage_path }}"
-    state: unmounted
-
-  - path: "{{ filestorage_mount_path }}"
-    location: "{{ filestorage_host }}:{{ filestorage_path }}"
+    state: mounted
     opts: rw
 
   - path: "{{ filestorage_example_mount_path }}"
     location: "{{ filestorage_host }}:{{ filestorage_path }}"
+    state: mounted
     opts: rw
