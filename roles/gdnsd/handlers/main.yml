@@ -1,6 +1,0 @@
----
-- name: Restart GDNSD
-  ansible.builtin.service:
-    name: gdnsd
-    state: restarted
-    enabled: true

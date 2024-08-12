@@ -1,5 +1,0 @@
----
-gdnsd_domain_name: test.local
-gdnsd_dns_ip: 8.8.8.8
-gdnsd_network:
-  iface: "{{ ansible_default_ipv4.interface }}"

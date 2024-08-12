@@ -1,7 +1,0 @@
----
-- name: Install GDNSD on Debian
-  ansible.builtin.apt:
-    name:
-      - gdnsd
-    state: present
-    update_cache: true

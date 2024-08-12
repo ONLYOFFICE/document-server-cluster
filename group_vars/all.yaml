@@ -1,12 +1,12 @@
-db_server_host: "{% if ansible_os_family == 'Debian' %}{{ gdnsd_domain_name }}{% else %}{{ groups['haproxy_cluster'][0] }}{% endif %}"
+db_server_host: "{{ groups['haproxy_cluster'][0] }}"
 
-db_server_name: onlyoffice
+db_server_name: postgres
 db_server_user: onlyoffice
 db_server_pass: onlyoffice
 
-redis_server_host: "{% if ansible_os_family == 'Debian' %}{{ gdnsd_domain_name }}{% else %}{{ groups['haproxy_cluster'][0] }}{% endif %}"
+redis_server_host: "{{ groups['haproxy_cluster'][0] }}"
 
-rabbitmq_server_host: "{% if ansible_os_family == 'Debian' %}{{ gdnsd_domain_name }}{% else %}{{ groups['haproxy_cluster'][0] }}{% endif %}"
+rabbitmq_server_host: "{{ groups['haproxy_cluster'][0] }}"
 
 rabbitmq_server_user: onlyoffice
 rabbitmq_server_pass: onlyoffice
@@ -20,7 +20,7 @@ fonts_host: "{{ groups['filestorage'][0] }}"
 fonts_path: "/usr/share/fonts"
 fonts_fs: "nfs"
 
-documentserver_host: "{% if ansible_os_family == 'Debian' %}{{ gdnsd_domain_name }}{% else %}{{ groups['haproxy_cluster'][0] }}{% endif %}"
+documentserver_host: "{{ groups['haproxy_cluster'][0] }}"
 
 documentserver_proto: "http{% if loadbalancer_ssl %}s{% endif %}"
 
