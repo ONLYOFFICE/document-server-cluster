@@ -1,5 +1,6 @@
 ---
-redis_version: 5.0.7
+redis_version: 7.2.5
+redis_install_from_source: true
 redis_protected_mode: "no"
 redis_timeout: 300
 redis_logfile: /var/log/redis/redis-server.log

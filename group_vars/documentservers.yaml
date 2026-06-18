@@ -1,9 +1,8 @@
-rabbitmq_server_url: "amqp://{{ rabbitmq_server_user}}:{{ rabbitmq_server_pass}}@{{ rabbitmq_server_host }}{{ rabbitmq_server_vpath }}"
+rabbitmq_server_url: "amqp://{{ rabbitmq_server_user }}:{{ rabbitmq_server_pass }}@{{ rabbitmq_server_host }}{{ rabbitmq_server_vpath }}"
 
-package_name: onlyoffice-documentserver-ie
+package_name: onlyoffice-documentserver
 
 psql: "PGPASSWORD={{ db_server_pass }} psql -q -h{{ db_server_host }} -U{{ db_server_user }} -w -d{{ db_server_name }}"
-createdb_sql: /var/www/onlyoffice/documentserver/server/schema/postgresql/createdb.sql
 
 cluster_mode: true
 
@@ -15,21 +14,10 @@ filestorage_example_mount_path: /var/lib/onlyoffice/documentserver-example/files
 nfs_share_mounts:
   - path: "{{ filestorage_mount_path }}"
     location: "{{ filestorage_host }}:{{ filestorage_path }}"
-    state: unmounted
-
-  - path: "{{ filestorage_example_mount_path }}"
-    location: "{{ filestorage_host }}:{{filestorage_path }}"
-    state: unmounted
-
-  - path: "{{ filestorage_mount_path }}"
-    location: "{{ filestorage_host }}:{{ filestorage_path }}"
+    state: mounted
     opts: rw
 
   - path: "{{ filestorage_example_mount_path }}"
     location: "{{ filestorage_host }}:{{ filestorage_path }}"
+    state: mounted
     opts: rw
-
-domain_name: ds.local
-dns_ip: 8.8.8.8
-gdnsd_network:
-  iface: "{{ ansible_default_ipv4.interface }}"

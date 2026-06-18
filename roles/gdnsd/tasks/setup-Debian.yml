@@ -1,8 +1,0 @@
----
-- name: Installing GDNSD Debian
-  apt:
-    name:
-      - gdnsd
-      - gdnsd-dev
-    state: present
-    update_cache: yes
